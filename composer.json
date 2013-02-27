@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe/pagerater",
+	"name": "sunnysideup/pagerater",
 	"type": "silverstripe-module",
 	"description": "allows users to rate pages. Module for Silverstripe",
 	"homepage": "http://www.silverstripe-webdevelopment.com",
