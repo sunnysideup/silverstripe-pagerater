@@ -6,78 +6,69 @@
  *
  **/
 
-class PageRater extends DataObjectDecorator {
+class PageRater extends DataExtension {
 
-	public function extraStatics() {
-		return array (
-			'db' => array(
-				'PageRating' => 'Double'
-			),
-			'indexes' => array(
-				'PageRating' => true
-			)
-		);
-	}
+	private static $db = array(
+		'PageRating' => 'Double'
+	);
+
+	private static $indexes = array(
+		'PageRating' => true
+	);
 
 
-	protected static $add_default_rating = false;
+	private static $add_default_rating = false;
 		static function set_add_default_rating($v) {self::$add_default_rating = $v;}
 		static function get_add_default_rating() {return self::$add_default_rating;}
 
-	protected static $round_rating = true;
+	private static $round_rating = true;
 		static function set_round_rating($v) {self::$round_rating = $v;}
 		static function get_round_rating() {return self::$round_rating;}
 
-	protected static $number_of_default_records_to_be_added = 5;
+	private static $number_of_default_records_to_be_added = 5;
 		static function set_number_of_default_records_to_be_added($v) {self::$number_of_default_records_to_be_added = $v;}
 		static function get_number_of_default_records_to_be_added() {return self::$number_of_default_records_to_be_added;}
 
 	function PageRatingResults() {
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
-		$doSet = new DataObjectSet();
-    $sqlQuery = new SQLQuery(
-			$select = "AVG({$bt}PageRating{$bt}.{$bt}Rating{$bt}) RatingAverage, ParentID",
-			$from = " {$bt}PageRating{$bt} ",
-			$where = "{$bt}ParentID{$bt} = ".$this->owner->ID."",
-			$orderby = "RatingAverage DESC",
-			$groupby = "{$bt}ParentID{$bt}",
-			$having = "",
-			$limit = "1"
-		);
+		$doSet = new ArrayList();
+    $sqlQuery = new SQLQuery()
+    $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+		$sqlQuery->setFrom("\"PageRating\" ");
+		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
+		$sqlQuery->setOrderBy("RatingAverage DESC");
+		$sqlQuery->setGoupby("\"ParentID\"");
+		$sqlQuery->setLimit(1);
 		return $this->turnSQLIntoDoset($sqlQuery, "PageRatingResults");
 	}
 
 	function CurrentUserRating() {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
-		$doSet = new DataObjectSet();
-    $sqlQuery = new SQLQuery(
-			$select = "AVG({$bt}PageRating{$bt}.{$bt}Rating{$bt}) RatingAverage, ParentID",
-			$from = " {$bt}PageRating{$bt} ",
-			$where = "{$bt}ParentID{$bt} = ".$this->owner->ID." AND {$bt}Rating{$bt} = '".Session::get('PageRated'.$this->owner->ID)."'",
-			$orderby = "RatingAverage DESC",
-			$groupby = "{$bt}ParentID{$bt}",
-			$having = "",
-			$limit = "1"
-		);
+		$doSet = new ArrayList();
+    $sqlQuery = new SQLQuery()
+    $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+		$sqlQuery->setFrom("\"PageRating\" ");
+		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"Rating\" = '".Session::get('PageRated'.$this->owner->ID)."'");
+		$sqlQuery->setOrderBy("RatingAverage DESC");
+		$sqlQuery->setGoupby("\"ParentID\"");
+		$sqlQuery->setLimit(1);
 		return $this->turnSQLIntoDoset($sqlQuery, "CurrentUserRating");
 	}
 
 	function PageRaterList(){
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
-		$doSet = new DataObjectSet();
-    $sqlQuery = new SQLQuery(
-			$select = "AVG({$bt}PageRating{$bt}.{$bt}Rating{$bt}) RatingAverage, ParentID",
-			$from = " {$bt}PageRating{$bt}, {$bt}SiteTree{$bt}  ",
-			$where = "{$bt}ParentID{$bt} = {$bt}SiteTree{$bt}.{$bt}ID{$bt}",
-			$orderby = "RatingAverage DESC",
-			$groupby = "{$bt}ParentID{$bt}"
-		);
+		$doSet = new ArrayList();
+    $sqlQuery = new SQLQuery()
+    $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+		$sqlQuery->setFrom(" \"PageRating\", \"SiteTree\"  ");
+		$sqlQuery->setWhere("\"ParentID\" = \"SiteTree\".\"ID\"");
+		$sqlQuery->setOrderBy("RatingAverage DESC");
+		$sqlQuery->setGoupby("\"ParentID\"");
 		return $this->turnSQLIntoDoset($sqlQuery, "PageRaterList");
 	}
 
 	protected function turnSQLIntoDoset(SQLQuery $sqlQuery, $method = "unknown") {
 		$data = $sqlQuery->execute();
-		$doSet = new DataObjectSet();
+		$doSet = new ArrayList();
 		if($data) {
 			foreach($data as $record) {
 				$score = $record["RatingAverage"];
@@ -91,7 +82,7 @@ class PageRater extends DataObjectDecorator {
 				$reversePercentage = round(100 - $percentage);
 				$reverseRoundedPercentage = round(100 - $roundedPercentage);
 				$starClass = PageRating::get_star_entry_code($stars);
-				$page = DataObject::get_by_id("SiteTree", $record["ParentID"]);
+				$page = SiteTree::get()->byId( $record["ParentID"]);
 				$record = array(
 					'Rating' => "Stars",
 					'Method' => $method,
@@ -131,16 +122,14 @@ class PageRater extends DataObjectDecorator {
 
 	function NumberOfPageRatings() {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
-		$doSet = new DataObjectSet();
-    $sqlQuery = new SQLQuery(
-			$select = "COUNT({$bt}PageRating{$bt}.{$bt}Rating{$bt}) RatingCount",
-			$from = " {$bt}PageRating{$bt} ",
-			$where = "{$bt}ParentID{$bt} = ".$this->owner->ID."",
-			$orderby = "RatingCount",
-			$groupby = "{$bt}ParentID{$bt}",
-			$having = "",
-			$limit = "1"
-		);
+		$doSet = new ArrayList();
+    $sqlQuery = new SQLQuery()
+    $sqlQuery->setSelect("COUNT(\"PageRating\".\"Rating\") RatingCount");
+		$sqlQuery->setFrom("\"PageRating\" ");
+		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
+		$sqlQuery->setOrderBy("RatingCount ASC");
+		$sqlQuery->setGoupby("\"ParentID\"");
+		$sqlQuery->setLimit(1);
 		$data = $sqlQuery->execute();
 		if($data) {
 			foreach($data as $record) {
@@ -154,12 +143,9 @@ class PageRater extends DataObjectDecorator {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		parent::requireDefaultRecords();
 		if(self::get_add_default_rating()) {
-			$pages = DataObject::get(
-				$className = "SiteTree",
-				$where = "{$bt}PageRating{$bt}.{$bt}ID{$bt} IS NULL",
-				$sort = "",
-				$join = "LEFT JOIN {$bt}PageRating{$bt} ON {$bt}PageRating{$bt}.{$bt}ParentID{$bt} = {$bt}SiteTree{$bt}.{$bt}ID{$bt}"
-			);
+			$pages = SiteTree::get()
+				->where( "\"PageRating\".\"ID\" IS NULL")
+				->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
 			if($pages) {
 				foreach($pages as $page) {
 					$count = 0;
@@ -198,19 +184,19 @@ class PageRater extends DataObjectDecorator {
 
 class PageRater_Controller extends Extension {
 
-	protected static $field_title = "Click on any star to rate:";
+	private static $field_title = "Click on any star to rate:";
 		static function set_field_title($v) {self::$field_title = $v;}
 		static function get_field_title() {return self::$field_title;}
 
-	protected static $field_right_title = "On a scale from 1 to 5, with 5 being the best";
+	private static $field_right_title = "On a scale from 1 to 5, with 5 being the best";
 		static function set_field_right_title($v){self::$field_right_title = $v;}
 		static function get_field_right_title(){return self::$field_right_title;}
 
-	protected static $show_average_rating_in_rating_field = false;
+	private static $show_average_rating_in_rating_field = false;
 		static function set_show_average_rating_in_rating_field($v){self::$show_average_rating_in_rating_field = $v;}
 		static function get_show_average_rating_in_rating_field(){return self::$show_average_rating_in_rating_field;}
 
-	static $allowed_actions = array("PageRatingForm", "dopagerating", "removedefaultpageratings", "removeallpageratings" );
+	private static $allowed_actions = array("PageRatingForm", "dopagerating", "removedefaultpageratings", "removeallpageratings" );
 
 	function rateagain (){
 		Session::set('PageRated'.$this->owner->dataRecord->ID, false);
@@ -231,11 +217,11 @@ class PageRater_Controller extends Extension {
 		}
 		$ratingField = new PageRaterStarField('Rating', PageRater_Controller::get_field_title(), $defaultStart, PageRating::get_number_of_stars());
 		$ratingField->setRightTitle(PageRater_Controller::get_field_right_title());
-		$fields = new FieldSet(
+		$fields = new FieldList(
 			$ratingField,
 			new HiddenField('ParentID', "ParentID", $this->owner->dataRecord->ID)
 		);
-		$actions = new FieldSet(new FormAction('dopagerating', 'Submit'));
+		$actions = new FieldList(new FormAction('dopagerating', 'Submit'));
 		return new Form($this->owner, 'PageRatingForm', $fields, $actions);
 	}
 
@@ -245,11 +231,11 @@ class PageRater_Controller extends Extension {
 		$form->saveInto($PageRating);
 		$PageRating->write();
 		Session::set('PageRated'.$this->owner->dataRecord->ID, intval($data["Rating"]));
-		if($this->owner->isAjax()) {
+		if(Director::is_ajax()) {
 			return $this->owner->renderWith("PageRaterAjaxReturn");
 		}
 		else {
-			Director::redirectBack();
+			$this->redirectBack();
 		}
 	}
 

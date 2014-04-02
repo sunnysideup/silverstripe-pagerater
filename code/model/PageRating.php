@@ -7,7 +7,7 @@
 
 class PageRating extends DataObject {
 
-	protected static $stars = array(
+	private static $stars = array(
 		'1' => array("Code" => 'OneStar', "Title" => "One Star"),
 		'2' => array("Code" => 'TwoStar', "Title" => "Two Stars"),
 		'3' => array("Code" => 'ThreeStar', "Title" => "Three Stars"),
@@ -40,22 +40,22 @@ class PageRating extends DataObject {
 		}
 		static function get_number_of_stars() {return count(self::$stars);}
 
-	static $db = array(
+	private static $db = array(
  		"Rating" => "Int",
  		"IsDefault" => "Boolean"
 	);
 
-	static $has_one = array(
+	private static $has_one = array(
 		"Parent" => "Page"
 	);
 
-	static $summary_fields = array("Rating", "Parent.Title");
+	private static $summary_fields = array("Rating", "Parent.Title");
 
-	static $default_sort = "Created DESC";
+	private static $default_sort = "Created DESC";
 
-	static $singular_name = 'Page Rating';
+	private static $singular_name = 'Page Rating';
 
-	static $plural_name = 'Page Ratings';
+	private static $plural_name = 'Page Ratings';
 
 	public static function update_ratings($SiteTreeID = 0) {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";

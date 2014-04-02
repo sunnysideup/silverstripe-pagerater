@@ -1,10 +1,10 @@
 <% if PageRaterList %>
 <ul id="PageRaterList">
-	<% control PageRaterList %>
+	<% with/loop PageRaterList %>
 	<li>
 		<% include PageRaterStars %>
-		<% control Page %><a href="$Link">$MenuTitle</a><% end_control %>
+		<% with/loop Page %><a href="$Link">$MenuTitle</a><% end_with/loop %>
 	</li>
-	<% end_control %>
+	<% end_with/loop %>
 </ul>
 <% end_if %>

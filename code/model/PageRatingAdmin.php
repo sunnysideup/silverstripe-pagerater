@@ -7,12 +7,12 @@
  **/
 class PageRatingAdmin extends ModelAdmin {
 
-	public static $managed_models = array(
+	private static $managed_models = array(
 		'PageRating'
 	);
 
-	static $url_segment = 'page-rating';
+	private static $url_segment = 'page-rating';
 
-	static $menu_title = 'Ratings';
+	private static $menu_title = 'Ratings';
 
 }

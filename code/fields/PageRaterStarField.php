@@ -20,7 +20,7 @@ class PageRaterStarField extends FormField {
 		parent::__construct($name, $title, $value, $form);
 	}
 
-	function Field() {
+	function Field($properties = array()) {
 		Requirements::javascript(THIRDPARTY_DIR .'/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR .'/jquery-form/jquery.form.js');
 		Requirements::javascript('pagerater/javascript/jquery.rating.pack.js');
@@ -31,7 +31,7 @@ class PageRaterStarField extends FormField {
 		Requirements::themedCSS('jquery.rating');
 		$html = "";
 
-		$name = $this->Name();
+		$name = $this->getName();
 		$id = $this->id();
 		for($i = 1; $i < $this->starOptions + 1; $i++){
 			if($i == $this->Value()){

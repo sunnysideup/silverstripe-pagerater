@@ -1,5 +1,5 @@
 <div class="PageRaterStars">
-<% control PageRatingResults %>
+<% with/loop PageRatingResults %>
 <% include PageRaterResultsInner %>
-<% end_control %>
+<% end_with/loop %>
 </div>
