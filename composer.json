@@ -3,7 +3,7 @@
 	"type": "silverstripe-module",
 	"description": "allows users to rate pages. Module for Silverstripe",
 	"homepage": "http://www.silverstripe-webdevelopment.com",
-	"keywords": ["pagerater", "silverstripe"],
+	"keywords": ["pagerater", "silverstripe", "rate", "stars"],
 	"license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
 	"authors":[
 		{
