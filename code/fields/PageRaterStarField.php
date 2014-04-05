@@ -28,7 +28,7 @@ class PageRaterStarField extends FormField {
 		if(self::get_extra_form_selector()) {
 			Requirements::customScript("PageRater.set_extra_form_selector('".self::get_extra_form_selector()."');");
 		}
-		Requirements::themedCSS('jquery.rating');
+		Requirements::themedCSS('jquery.rating', "pagerater");
 		$html = "";
 
 		$name = $this->getName();

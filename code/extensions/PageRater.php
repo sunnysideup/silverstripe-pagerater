@@ -111,7 +111,7 @@ class PageRater extends DataExtension {
 				}
 				$doSet->push(new ArrayData($record));
 			}
-			Requirements::themedCSS("PageRater");
+			Requirements::themedCSS("PageRater", "pagerater");
 		}
 		return $doSet;
 	}
