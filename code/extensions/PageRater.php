@@ -18,16 +18,10 @@ class PageRater extends DataExtension {
 
 
 	private static $add_default_rating = false;
-		static function set_add_default_rating($v) {self::$add_default_rating = $v;}
-		static function get_add_default_rating() {return self::$add_default_rating;}
 
 	private static $round_rating = true;
-		static function set_round_rating($v) {self::$round_rating = $v;}
-		static function get_round_rating() {return self::$round_rating;}
 
 	private static $number_of_default_records_to_be_added = 5;
-		static function set_number_of_default_records_to_be_added($v) {self::$number_of_default_records_to_be_added = $v;}
-		static function get_number_of_default_records_to_be_added() {return self::$number_of_default_records_to_be_added;}
 
 	function PageRatingResults() {
 		$doSet = new ArrayList();
@@ -73,7 +67,7 @@ class PageRater extends DataExtension {
 			foreach($data as $record) {
 				$score = $record["RatingAverage"];
 				$stars = ($score);
-				if(PageRater::get_round_rating()) {
+				if($this->Config()->get("round_rating")) {
 					$stars = round($stars);
 				}
 				$widthOutOfOneHundredForEachStar = 100 / PageRating::get_number_of_stars();
@@ -142,7 +136,7 @@ class PageRater extends DataExtension {
 	function requireDefaultRecords() {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		parent::requireDefaultRecords();
-		if(self::get_add_default_rating()) {
+		if($this->Config()->get("add_default_rating")) {
 			$pages = SiteTree::get()
 				->where( "\"PageRating\".\"ID\" IS NULL")
 				->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
@@ -152,7 +146,7 @@ class PageRater extends DataExtension {
 					$max = PageRating::get_number_of_stars();
 					$goingBackTo = ($max / rand(1, $max)) - 1;
 					$stepsBack = $max - $goingBackTo;
-					$ratings = PageRater::get_number_of_default_records_to_be_added() / $stepsBack;
+					$ratings = $this->Config()->get("number_of_default_records_to_be_added") / $stepsBack;
 					for($i = 1; $i <= $ratings; $i++) {
 						for($j = $max; $j > $goingBackTo; $j--) {
 							$PageRating = new PageRating();
@@ -185,18 +179,17 @@ class PageRater extends DataExtension {
 class PageRater_Controller extends Extension {
 
 	private static $field_title = "Click on any star to rate:";
-		static function set_field_title($v) {self::$field_title = $v;}
-		static function get_field_title() {return self::$field_title;}
 
 	private static $field_right_title = "On a scale from 1 to 5, with 5 being the best";
-		static function set_field_right_title($v){self::$field_right_title = $v;}
-		static function get_field_right_title(){return self::$field_right_title;}
 
 	private static $show_average_rating_in_rating_field = false;
-		static function set_show_average_rating_in_rating_field($v){self::$show_average_rating_in_rating_field = $v;}
-		static function get_show_average_rating_in_rating_field(){return self::$show_average_rating_in_rating_field;}
 
-	private static $allowed_actions = array("PageRatingForm", "dopagerating", "removedefaultpageratings", "removeallpageratings" );
+	private static $allowed_actions = array(
+		"PageRatingForm",
+		"dopagerating",
+		"removedefaultpageratings",
+		"removeallpageratings"
+	);
 
 	function rateagain (){
 		Session::set('PageRated'.$this->owner->dataRecord->ID, false);
@@ -209,14 +202,14 @@ class PageRater_Controller extends Extension {
 			return false;
 		}
 
-		if(self::get_show_average_rating_in_rating_field()) {
+		if(Config::inst()->get("PageRater_Controller", "show_average_rating_in_rating_field") {
 			$defaultStart = $this->owner->getStarRating();
 		}
 		else {
 			$defaultStart = 0;
 		}
-		$ratingField = new PageRaterStarField('Rating', PageRater_Controller::get_field_title(), $defaultStart, PageRating::get_number_of_stars());
-		$ratingField->setRightTitle(PageRater_Controller::get_field_right_title());
+		$ratingField = new PageRaterStarField('Rating', PageRater_Controller::get_field_title(), $defaultStart, Config::inst()->get("PageRater_Controller", "field_title"));
+		$ratingField->setRightTitle(Config::inst()->get("PageRater_Controller", "field_right_title")));
 		$fields = new FieldList(
 			$ratingField,
 			new HiddenField('ParentID', "ParentID", $this->owner->dataRecord->ID)
