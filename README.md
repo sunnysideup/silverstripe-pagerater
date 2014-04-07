@@ -1,6 +1,4 @@
-###############################################
-Page Rater
-###############################################
+Page Rater================================================================================
 
 This module can add a form to your pages where
 visitors can rate the page.
@@ -38,5 +36,4 @@ you should to find some examples of config options (if any).
 3. add the following to your templates:
 
 $PageRatingForm
-
-###############################################
+================================================================================
