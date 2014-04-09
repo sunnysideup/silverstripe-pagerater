@@ -1,0 +1,8 @@
+SiteTree:
+  extensions:
+    - PageRater
+
+ContentController:
+  extensions:
+    - PageRater_Controller
+

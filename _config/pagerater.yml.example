@@ -1,0 +1,12 @@
+PageRating:
+  stars: [
+    Code: oneStar
+    Title: One Star
+   ],
+   [
+    Code: twoStar
+    Title: Two Star
+   ],
+
+PageRaterStarField:
+  extra_form_selector: 'form#PageCommentInterface_Form_PostCommentForm'

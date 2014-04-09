@@ -25,7 +25,7 @@ class PageRater extends DataExtension {
 
 	function PageRatingResults() {
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery()
+    $sqlQuery = new SQLQuery();
     $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
 		$sqlQuery->setFrom("\"PageRating\" ");
 		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
@@ -38,7 +38,7 @@ class PageRater extends DataExtension {
 	function CurrentUserRating() {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery()
+    $sqlQuery = new SQLQuery();
     $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
 		$sqlQuery->setFrom("\"PageRating\" ");
 		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"Rating\" = '".Session::get('PageRated'.$this->owner->ID)."'");
@@ -51,7 +51,7 @@ class PageRater extends DataExtension {
 	function PageRaterList(){
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery()
+    $sqlQuery = new SQLQuery();
     $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
 		$sqlQuery->setFrom(" \"PageRating\", \"SiteTree\"  ");
 		$sqlQuery->setWhere("\"ParentID\" = \"SiteTree\".\"ID\"");
@@ -115,9 +115,8 @@ class PageRater extends DataExtension {
 	}
 
 	function NumberOfPageRatings() {
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery()
+    $sqlQuery = new SQLQuery();
     $sqlQuery->setSelect("COUNT(\"PageRating\".\"Rating\") RatingCount");
 		$sqlQuery->setFrom("\"PageRating\" ");
 		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
@@ -134,9 +133,8 @@ class PageRater extends DataExtension {
 	}
 
 	function requireDefaultRecords() {
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		parent::requireDefaultRecords();
-		if($this->Config()->get("add_default_rating")) {
+		if(Config::inst()->get("PageRater", "add_default_rating")) {
 			$pages = SiteTree::get()
 				->where( "\"PageRating\".\"ID\" IS NULL")
 				->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
@@ -202,14 +200,14 @@ class PageRater_Controller extends Extension {
 			return false;
 		}
 
-		if(Config::inst()->get("PageRater_Controller", "show_average_rating_in_rating_field") {
+		if(Config::inst()->get("PageRater_Controller", "show_average_rating_in_rating_field")) {
 			$defaultStart = $this->owner->getStarRating();
 		}
 		else {
 			$defaultStart = 0;
 		}
 		$ratingField = new PageRaterStarField('Rating', PageRater_Controller::get_field_title(), $defaultStart, Config::inst()->get("PageRater_Controller", "field_title"));
-		$ratingField->setRightTitle(Config::inst()->get("PageRater_Controller", "field_right_title")));
+		$ratingField->setRightTitle(Config::inst()->get("PageRater_Controller", "field_right_title"));
 		$fields = new FieldList(
 			$ratingField,
 			new HiddenField('ParentID', "ParentID", $this->owner->dataRecord->ID)
