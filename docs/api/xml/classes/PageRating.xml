@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://xml.phpdox.net/src" full="PageRating" namespace="" name="PageRating" abstract="false" final="false" start="8" end="104">
+  <file path="/var/www/_modules/pagerater/trunk/docs/en/phpdox/../../../code/model" file="PageRating.php" realpath="/var/www/_modules/pagerater/trunk/code/model/PageRating.php" size="3100" time="2015-03-14T10:23:56+13:00" unixtime="1426281836" sha1="ee2a0cee92a64214958fe84f33cc0080d9e0e5f5" relative="code/model/PageRating.php"/>
+  <docblock>
+    <description compact="author nicolaas [at] sunnysideup . co . nz"/>
+  </docblock>
+  <extends full="DataObject" namespace="" name="DataObject"/>
+  <member name="stars" type="array" visibility="private" line="10"/>
+  <method name="get_stars" start="17" end="17" abstract="false" final="false" static="true" visibility="public"/>
+  <method name="set_stars" start="18" end="18" abstract="false" final="false" static="true" visibility="public">
+    <parameter name="v" byreference="false" type="{unknown}"/>
+  </method>
+  <method name="get_star_entry_code" start="19" end="24" abstract="false" final="false" static="true" visibility="public">
+    <parameter name="value" byreference="false" type="{unknown}"/>
+  </method>
+  <method name="get_star_entry_name" start="25" end="30" abstract="false" final="false" static="true" visibility="public">
+    <parameter name="value" byreference="false" type="{unknown}"/>
+  </method>
+  <method name="get_star_dropdowndown" start="31" end="40" abstract="false" final="false" static="true" visibility="public"/>
+  <method name="get_number_of_stars" start="41" end="41" abstract="false" final="false" static="true" visibility="public"/>
+  <member name="db" type="array" visibility="private" line="43"/>
+  <member name="has_one" type="array" visibility="private" line="48"/>
+  <member name="summary_fields" type="array" visibility="private" line="52"/>
+  <member name="default_sort" type="string" default="&quot;Created DESC&quot;" visibility="private" line="54"/>
+  <member name="singular_name" type="string" default="'Page Rating'" visibility="private" line="56"/>
+  <member name="plural_name" type="string" default="'Page Ratings'" visibility="private" line="58"/>
+  <method name="update_ratings" start="60" end="85" abstract="false" final="false" static="true" visibility="public">
+    <parameter name="SiteTreeID" byreference="false" type="integer" default="0"/>
+  </method>
+  <method name="onBeforeWrite" start="87" end="92" abstract="false" final="false" static="false" visibility="public"/>
+  <method name="requireDefaultRecords" start="94" end="102" abstract="false" final="false" static="false" visibility="public"/>
+</class>

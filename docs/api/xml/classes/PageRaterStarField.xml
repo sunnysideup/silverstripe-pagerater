@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://xml.phpdox.net/src" full="PageRaterStarField" namespace="" name="PageRaterStarField" abstract="false" final="false" start="3" end="56">
+  <file path="/var/www/_modules/pagerater/trunk/docs/en/phpdox/../../../code/fields" file="PageRaterStarField.php" realpath="/var/www/_modules/pagerater/trunk/code/fields/PageRaterStarField.php" size="1628" time="2015-03-14T10:23:56+13:00" unixtime="1426281836" sha1="836a92af04a2aa8fef9348fbb3bd0e0d79d96fad" relative="code/fields/PageRaterStarField.php"/>
+  <extends full="FormField" namespace="" name="FormField"/>
+  <member name="rating" type="integer" default="0" visibility="protected" line="5"/>
+  <member name="starOptions" type="integer" default="0" visibility="protected" line="7"/>
+  <member name="extra_form_selector" type="string" default="''" visibility="protected" line="9"/>
+  <constructor name="__construct" start="14" end="19" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="Returns an input field, class=&quot;start field&quot; and type=&quot;hidden&quot; with an optional maxlength"/>
+    </docblock>
+    <parameter name="name" byreference="false" type="{unknown}"/>
+    <parameter name="title" byreference="false" type="{unknown}" default="null"/>
+    <parameter name="value" byreference="false" type="string" default="&quot;&quot;"/>
+    <parameter name="starOptions" byreference="false" type="{unknown}"/>
+    <parameter name="form" byreference="false" type="{unknown}" default="null"/>
+  </constructor>
+  <method name="Field" start="21" end="54" abstract="false" final="false" static="false" visibility="public">
+    <parameter name="properties" byreference="false" type="array"/>
+  </method>
+</class>
