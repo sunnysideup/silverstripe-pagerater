@@ -16,7 +16,6 @@ class PageRater extends DataExtension {
 		'PageRating' => true
 	);
 
-
 	private static $add_default_rating = false;
 
 	private static $round_rating = true;
@@ -25,49 +24,48 @@ class PageRater extends DataExtension {
 
 	function PageRatingResults() {
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery();
-    $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+		$sqlQuery = new SQLQuery();
+		$sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
 		$sqlQuery->setFrom("\"PageRating\" ");
 		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
 		$sqlQuery->setOrderBy("RatingAverage DESC");
-		$sqlQuery->setGoupby("\"ParentID\"");
+		$sqlQuery->setGroupby("\"ParentID\"");
 		$sqlQuery->setLimit(1);
-		return $this->turnSQLIntoDoset($sqlQuery, "PageRatingResults");
+		return $this->turnSQLIntoArrayList($sqlQuery, "PageRatingResults");
 	}
 
 	function CurrentUserRating() {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery();
-    $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+		$sqlQuery = new SQLQuery();
+		$sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
 		$sqlQuery->setFrom("\"PageRating\" ");
 		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"Rating\" = '".Session::get('PageRated'.$this->owner->ID)."'");
 		$sqlQuery->setOrderBy("RatingAverage DESC");
-		$sqlQuery->setGoupby("\"ParentID\"");
+		$sqlQuery->setGroupby("\"ParentID\"");
 		$sqlQuery->setLimit(1);
-		return $this->turnSQLIntoDoset($sqlQuery, "CurrentUserRating");
+		return $this->turnSQLIntoArrayList($sqlQuery, "CurrentUserRating");
 	}
 
 	function PageRaterList(){
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery();
-    $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+		$sqlQuery = new SQLQuery();
+		$sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
 		$sqlQuery->setFrom(" \"PageRating\", \"SiteTree\"  ");
 		$sqlQuery->setWhere("\"ParentID\" = \"SiteTree\".\"ID\"");
 		$sqlQuery->setOrderBy("RatingAverage DESC");
-		$sqlQuery->setGoupby("\"ParentID\"");
-		return $this->turnSQLIntoDoset($sqlQuery, "PageRaterList");
+		$sqlQuery->setGroupby("\"ParentID\"");
+		return $this->turnSQLIntoArrayList($sqlQuery, "PageRaterList");
 	}
 
-	protected function turnSQLIntoDoset(SQLQuery $sqlQuery, $method = "unknown") {
+	protected function turnSQLIntoArrayList(SQLQuery $sqlQuery, $method = "unknown") {
 		$data = $sqlQuery->execute();
-		$doSet = new ArrayList();
+		$al = new ArrayList();
 		if($data) {
 			foreach($data as $record) {
 				$score = $record["RatingAverage"];
-				$stars = ($score);
-				if($this->Config()->get("round_rating")) {
+				$stars = $score;
+				if(Config::inst()->get("PageRater", "round_rating")) {
 					$stars = round($stars);
 				}
 				$widthOutOfOneHundredForEachStar = 100 / PageRating::get_number_of_stars();
@@ -103,11 +101,10 @@ class PageRater extends DataExtension {
 						Page: ".$page->Title
 					);
 				}
-				$doSet->push(new ArrayData($record));
+				$al->push(new ArrayData($record));
 			}
-			Requirements::themedCSS("PageRater", "pagerater");
 		}
-		return $doSet;
+		return $al;
 	}
 
 	function PageHasBeenRatedByUser() {
@@ -116,8 +113,8 @@ class PageRater extends DataExtension {
 
 	function NumberOfPageRatings() {
 		$doSet = new ArrayList();
-    $sqlQuery = new SQLQuery();
-    $sqlQuery->setSelect("COUNT(\"PageRating\".\"Rating\") RatingCount");
+		$sqlQuery = new SQLQuery();
+		$sqlQuery->setSelect("COUNT(\"PageRating\".\"Rating\") RatingCount");
 		$sqlQuery->setFrom("\"PageRating\" ");
 		$sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
 		$sqlQuery->setOrderBy("RatingCount ASC");
@@ -144,7 +141,7 @@ class PageRater extends DataExtension {
 					$max = PageRating::get_number_of_stars();
 					$goingBackTo = ($max / rand(1, $max)) - 1;
 					$stepsBack = $max - $goingBackTo;
-					$ratings = $this->Config()->get("number_of_default_records_to_be_added") / $stepsBack;
+					$ratings = Config::inst()->get("PageRater", "number_of_default_records_to_be_added") / $stepsBack;
 					for($i = 1; $i <= $ratings; $i++) {
 						for($j = $max; $j > $goingBackTo; $j--) {
 							$PageRating = new PageRating();
@@ -161,10 +158,14 @@ class PageRater extends DataExtension {
 		}
 	}
 
-   function getStarRating(){
+	/**
+	 * return the average rating...
+	 * @return Double
+	 */
+	 function getStarRating(){
 		$ratings = $this->PageRatingResults();
 		$rating = 0;
-		if($ratings->Count() > 0){
+		if($ratings->Count() == 1){
 			foreach($ratings as $ratingItem){
 				$rating = $ratingItem->Stars;
 			}
@@ -196,23 +197,31 @@ class PageRater_Controller extends Extension {
 	}
 
 	function PageRatingForm() {
+		Requirements::themedCSS('PageRater', "pagerater");
 		if($this->owner->PageHasBeenRatedByUser()) {
-			return false;
-		}
-
-		if(Config::inst()->get("PageRater_Controller", "show_average_rating_in_rating_field")) {
-			$defaultStart = $this->owner->getStarRating();
+			$ratingField = new LiteralField("Rating", $this->owner->renderWith("PageRaterAjaxReturn"));
+			$actions = new FieldList();
 		}
 		else {
-			$defaultStart = 0;
+			if(Config::inst()->get("PageRater_Controller", "show_average_rating_in_rating_field")) {
+				$defaultStart = $this->owner->getStarRating();
+			}
+			else {
+				$defaultStart = 0;
+			}
+			$ratingField = new PageRaterStarField(
+				'Rating',
+				Config::inst()->get("PageRater_Controller", "field_title"),
+				$defaultStart,
+				PageRating::get_number_of_stars()
+			);
+			$ratingField->setRightTitle(Config::inst()->get("PageRater_Controller", "field_right_title"));
+			$actions = new FieldList(new FormAction('dopagerating', 'Submit'));
 		}
-		$ratingField = new PageRaterStarField('Rating', Config::inst()->get("PageRater_Controller", "field_title"), $defaultStart, Config::inst()->get("PageRater_Controller", "field_title"));
-		$ratingField->setRightTitle(Config::inst()->get("PageRater_Controller", "field_right_title"));
 		$fields = new FieldList(
 			$ratingField,
 			new HiddenField('ParentID', "ParentID", $this->owner->dataRecord->ID)
 		);
-		$actions = new FieldList(new FormAction('dopagerating', 'Submit'));
 		return new Form($this->owner, 'PageRatingForm', $fields, $actions);
 	}
 
@@ -234,7 +243,7 @@ class PageRater_Controller extends Extension {
 	function removedefaultpageratings() {
 		if(Permission::check("ADMIN")) {
 			DB::query("DELETE FROM PageRating WHERE IsDefault = 1;");
-			debug::show("removed all ratings for all pages");
+			debug::show("removed all default ratings for all pages");
 		}
 		else {
 			Security::permissionFailure($this->owner, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));

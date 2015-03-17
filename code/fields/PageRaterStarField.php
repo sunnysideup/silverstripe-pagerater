@@ -4,9 +4,9 @@ class PageRaterStarField extends FormField {
 
 	protected $rating = 0;
 
-	protected $starOptions = 0;
+	protected $starOptions = 5;
 
-	static protected $extra_form_selector = '';
+	private static $extra_form_selector = '';
 
 	/**
 	 * Returns an input field, class="start field" and type="hidden" with an optional maxlength
@@ -34,7 +34,8 @@ class PageRaterStarField extends FormField {
 		for($i = 1; $i < $this->starOptions + 1; $i++){
 			if($i == $this->Value()){
 				$html .= "<input name='$id' class='$id' type='radio' checked='checked' value='$i' />";
-			}else{
+			}
+			else{
 				$html .= "<input name='$id' class='$id' type='radio' value='$i' />";
 			}
 		}
