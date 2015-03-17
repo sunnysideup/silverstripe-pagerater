@@ -206,7 +206,7 @@ class PageRater_Controller extends Extension {
 		else {
 			$defaultStart = 0;
 		}
-		$ratingField = new PageRaterStarField('Rating', PageRater_Controller::get_field_title(), $defaultStart, Config::inst()->get("PageRater_Controller", "field_title"));
+		$ratingField = new PageRaterStarField('Rating', Config::inst()->get("PageRater_Controller", "field_title"), $defaultStart, Config::inst()->get("PageRater_Controller", "field_title"));
 		$ratingField->setRightTitle(Config::inst()->get("PageRater_Controller", "field_right_title"));
 		$fields = new FieldList(
 			$ratingField,
