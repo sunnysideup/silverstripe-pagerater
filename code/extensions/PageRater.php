@@ -47,7 +47,7 @@ class PageRater extends DataExtension {
 		return $this->turnSQLIntoArrayList($sqlQuery, "CurrentUserRating");
 	}
 
-	function PageRaterList(){
+	function PageRaterList() {
 		$doSet = new ArrayList();
 		$sqlQuery = new SQLQuery();
 		$sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
@@ -162,11 +162,11 @@ class PageRater extends DataExtension {
 	 * return the average rating...
 	 * @return Double
 	 */
-	 function getStarRating(){
+	 function getStarRating() {
 		$ratings = $this->PageRatingResults();
 		$rating = 0;
-		if($ratings->Count() == 1){
-			foreach($ratings as $ratingItem){
+		if($ratings->Count() == 1) {
+			foreach($ratings as $ratingItem) {
 				$rating = $ratingItem->Stars;
 			}
 		}
@@ -190,7 +190,7 @@ class PageRater_Controller extends Extension {
 		"removeallpageratings"
 	);
 
-	function rateagain (){
+	function rateagain () {
 		Session::set('PageRated'.$this->owner->dataRecord->ID, false);
 		Session::clear('PageRated'.$this->owner->dataRecord->ID);
 		return array();
