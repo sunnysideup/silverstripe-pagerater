@@ -11,7 +11,7 @@ class PageRaterStarField extends FormField {
 	/**
 	 * Returns an input field, class="start field" and type="hidden" with an optional maxlength
 	 */
-	function __construct($name, $title = null, $value = "", $starOptions, $form = null){
+	function __construct($name, $title = null, $value = "", $starOptions, $form = null) {
 
 		$this->starOptions = $starOptions;
 
@@ -31,8 +31,8 @@ class PageRaterStarField extends FormField {
 
 		$name = $this->getName();
 		$id = $this->id();
-		for($i = 1; $i < $this->starOptions + 1; $i++){
-			if($i == $this->Value()){
+		for($i = 1; $i < $this->starOptions + 1; $i++) {
+			if($i == $this->Value()) {
 				$html .= "<input name='$id' class='$id' type='radio' checked='checked' value='$i' />";
 			}
 			else{
@@ -44,7 +44,7 @@ class PageRaterStarField extends FormField {
 		Requirements::customScript(<<<JS
 			jQuery('.$id').rating({
 				required: true,
-				callback: function(value, link){
+				callback: function(value, link) {
 					jQuery('#$id').val(value);
 				}
 			});
