@@ -1,3 +1,4 @@
+<%-- get the user to rate the page --%>
 <div class="pageRaterStars">
 <% loop PageRatingResults %>
 	<span class="starLabel">Rating:</span>

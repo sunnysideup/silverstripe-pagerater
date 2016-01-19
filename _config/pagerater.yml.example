@@ -24,4 +24,3 @@ PageRater_Controller:
   field_title: "anything you like"
   field_right_title: "anything you like"
   show_average_rating_in_rating_field: true
-  show_average_rating_in_rating_field: true

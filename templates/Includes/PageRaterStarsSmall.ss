@@ -1,3 +1,4 @@
+<%-- inner for ratings ... SMALL --%>
 <div class="pageRaterStars">
 <% loop PageRatingResults %>
 	<span class="starLabel">Rating:</span>
