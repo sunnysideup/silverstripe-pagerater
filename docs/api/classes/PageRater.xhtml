@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html SYSTEM "about:legacy-compat">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:pdxf="http://xml.phpdox.net/functions" xmlns:pu="http://schema.phpunit.de/coverage/1.0" lang="en">
+  <head xmlns:git="http://xml.phpdox.net/gitlog#">
     <title>phpDox - PageRater</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   </head>
   <body>
-    <nav class="topnav">
+    <nav xmlns:git="http://xml.phpdox.net/gitlog#" class="topnav">
       <ul>
         <li>
           <div class="logo"><span>/**</span>phpDox</div>
@@ -22,7 +22,7 @@
           <a href="../classes.xhtml">Classes</a>
         </li>
         <li class="separator">
-          <a href="../source/index.xhtml">Source</a>
+          <a href="../reports/index.xhtml">Reports</a>
         </li>
       </ul>
     </nav>
@@ -55,9 +55,6 @@
           <li>
             <a href="#methods">Methods</a>
           </li>
-          <li>
-            <a href="../source/code/extensions/PageRater.php.xhtml#line9">Source</a>
-          </li>
         </ul>
       </nav>
       <section>
@@ -70,22 +67,22 @@
                 extends <a title="DataExtension" href="../classes/DataExtension.xhtml">DataExtension</a>
             {<br/><ul class="none"><li>// members</li><li>private array <a href="#members">$db</a>;
                     </li><li>private array <a href="#members">$indexes</a>;
-                    </li><li>private <a href="#members">$add_default_rating</a>;
-                    </li><li>private <a href="#members">$round_rating</a>;
+                    </li><li>private boolean <a href="#members">$add_default_rating</a>;
+                    </li><li>private boolean <a href="#members">$round_rating</a>;
                     </li><li>private integer <a href="#members">$number_of_default_records_to_be_added</a>;
-                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="PageRater" href="../classes/PageRater/PageRatingResults.xhtml">PageRatingResults</a>()
-                    </li><li>public void <a title="PageRater" href="../classes/PageRater/CurrentUserRating.xhtml">CurrentUserRating</a>()
-                    </li><li>public void <a title="PageRater" href="../classes/PageRater/PageRaterList.xhtml">PageRaterList</a>()
-                    </li><li>protected void <a title="PageRater" href="../classes/PageRater/turnSQLIntoDoset.xhtml">turnSQLIntoDoset</a>()
-                    </li><li>public void <a title="PageRater" href="../classes/PageRater/PageHasBeenRatedByUser.xhtml">PageHasBeenRatedByUser</a>()
-                    </li><li>public void <a title="PageRater" href="../classes/PageRater/NumberOfPageRatings.xhtml">NumberOfPageRatings</a>()
+                    </li></ul><ul class="none"><li>// methods</li><li>public ArrayList <a title="PageRater" href="../classes/PageRater/PageRatingResults.xhtml">PageRatingResults</a>()
+                    </li><li>public ArrayList <a title="PageRater" href="../classes/PageRater/CurrentUserRating.xhtml">CurrentUserRating</a>()
+                    </li><li>public ArrayList <a title="PageRater" href="../classes/PageRater/PageRaterList.xhtml">PageRaterList</a>()
+                    </li><li>protected ArrayList <a title="PageRater" href="../classes/PageRater/turnPageRaterSQLIntoArrayList.xhtml">turnPageRaterSQLIntoArrayList</a>()
+                    </li><li>public boolean <a title="PageRater" href="../classes/PageRater/PageHasBeenRatedByUser.xhtml">PageHasBeenRatedByUser</a>()
+                    </li><li>public int <a title="PageRater" href="../classes/PageRater/NumberOfPageRatings.xhtml">NumberOfPageRatings</a>()
                     </li><li>public void <a title="PageRater" href="../classes/PageRater/requireDefaultRecords.xhtml">requireDefaultRecords</a>()
-                    </li><li>public void <a title="PageRater" href="../classes/PageRater/getStarRating.xhtml">getStarRating</a>()
+                    </li><li>public Double <a title="PageRater" href="../classes/PageRater/getStarRating.xhtml">getStarRating</a>()
                     </li></ul>
 
             }<br/></div>
         <h2 id="hierarchy">Hierarchy</h2>
-        <div class="styled">
+        <div xmlns:git="http://xml.phpdox.net/gitlog#" class="styled">
           <h4>Extends</h4>
           <ul>
             <li>
@@ -94,54 +91,50 @@
           </ul>
         </div>
         <h2 id="members">Members</h2>
-        <div class="styled members">
+        <div xmlns:git="http://xml.phpdox.net/gitlog#" class="styled members">
           <h4>private</h4>
           <ul class="members">
-            <li id="add_default_rating">
-              <strong>$add_default_rating</strong>
-            </li>
+            <li id="add_default_rating"><strong>$add_default_rating</strong>
+                —
+                boolean<br/><span class="indent">add the default rating to each page ...</span></li>
             <li id="db">
               <strong>$db</strong>
             </li>
             <li id="indexes">
               <strong>$indexes</strong>
             </li>
-            <li id="number_of_default_records_to_be_added">
-              <strong>$number_of_default_records_to_be_added</strong>
-            </li>
-            <li id="round_rating">
-              <strong>$round_rating</strong>
-            </li>
+            <li id="number_of_default_records_to_be_added"><strong>$number_of_default_records_to_be_added</strong>
+                —
+                boolean</li>
+            <li id="round_rating"><strong>$round_rating</strong>
+                —
+                boolean</li>
           </ul>
         </div>
         <h2 id="methods">Methods</h2>
-        <div class="styled">
+        <div xmlns:git="http://xml.phpdox.net/gitlog#" class="styled">
           <h4>protected</h4>
           <ul>
-            <li id="turnSQLIntoDoset">
-              <a title="PageRater" href="../classes/PageRater/turnSQLIntoDoset.xhtml">turnSQLIntoDoset()</a>
+            <li id="turnPageRaterSQLIntoArrayList">
+              <a title="PageRater" href="../classes/PageRater/turnPageRaterSQLIntoArrayList.xhtml">turnPageRaterSQLIntoArrayList()</a>
             </li>
           </ul>
           <h4>public</h4>
           <ul>
-            <li id="CurrentUserRating">
-              <a title="PageRater" href="../classes/PageRater/CurrentUserRating.xhtml">CurrentUserRating()</a>
-            </li>
+            <li id="CurrentUserRating"><a title="PageRater" href="../classes/PageRater/CurrentUserRating.xhtml">CurrentUserRating()</a>
+                — rating of this page by this user ...</li>
             <li id="NumberOfPageRatings">
               <a title="PageRater" href="../classes/PageRater/NumberOfPageRatings.xhtml">NumberOfPageRatings()</a>
             </li>
             <li id="PageHasBeenRatedByUser">
               <a title="PageRater" href="../classes/PageRater/PageHasBeenRatedByUser.xhtml">PageHasBeenRatedByUser()</a>
             </li>
-            <li id="PageRaterList">
-              <a title="PageRater" href="../classes/PageRater/PageRaterList.xhtml">PageRaterList()</a>
-            </li>
-            <li id="PageRatingResults">
-              <a title="PageRater" href="../classes/PageRater/PageRatingResults.xhtml">PageRatingResults()</a>
-            </li>
-            <li id="getStarRating">
-              <a title="PageRater" href="../classes/PageRater/getStarRating.xhtml">getStarRating()</a>
-            </li>
+            <li id="PageRaterList"><a title="PageRater" href="../classes/PageRater/PageRaterList.xhtml">PageRaterList()</a>
+                — list of all rated pages ...</li>
+            <li id="PageRatingResults"><a title="PageRater" href="../classes/PageRater/PageRatingResults.xhtml">PageRatingResults()</a>
+                — rating for this page ...</li>
+            <li id="getStarRating"><a title="PageRater" href="../classes/PageRater/getStarRating.xhtml">getStarRating()</a>
+                — return the average rating...</li>
             <li id="requireDefaultRecords">
               <a title="PageRater" href="../classes/PageRater/requireDefaultRecords.xhtml">requireDefaultRecords()</a>
             </li>
@@ -149,7 +142,7 @@
         </div>
       </section>
     </div>
-    <footer>
+    <footer xmlns:git="http://xml.phpdox.net/gitlog#">
       <span/>
     </footer>
   </body>
