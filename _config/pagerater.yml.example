@@ -7,6 +7,21 @@ PageRating:
     Code: twoStar
     Title: Two Star
    ],
+   etc...
+  ]
 
 PageRaterStarField:
   extra_form_selector: 'form#PageCommentInterface_Form_PostCommentForm'
+
+
+PageRater:
+  add_default_rating: true
+  round_rating: true
+  number_of_default_records_to_be_added: 1
+
+
+PageRater_Controller:
+  field_title: "anything you like"
+  field_right_title: "anything you like"
+  show_average_rating_in_rating_field: true
+  show_average_rating_in_rating_field: true

@@ -16,12 +16,26 @@ class PageRater extends DataExtension {
 		'PageRating' => true
 	);
 
+	/**
+	 * add the default rating to each page ...
+	 * @var boolean
+	 */
 	private static $add_default_rating = false;
 
+	/**
+	 * @var boolean
+	 */
 	private static $round_rating = true;
 
+	/**
+	 * @var boolean
+	 */
 	private static $number_of_default_records_to_be_added = 5;
 
+	/**
+	 *
+	 * @return ArrayList
+	 */
 	function PageRatingResults() {
 		$doSet = new ArrayList();
 		$sqlQuery = new SQLQuery();
@@ -31,9 +45,13 @@ class PageRater extends DataExtension {
 		$sqlQuery->setOrderBy("RatingAverage DESC");
 		$sqlQuery->setGroupby("\"ParentID\"");
 		$sqlQuery->setLimit(1);
-		return $this->turnSQLIntoArrayList($sqlQuery, "PageRatingResults");
+		return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRatingResults");
 	}
 
+	/**
+	 *
+	 * @return ArrayList
+	 */
 	function CurrentUserRating() {
 		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		$doSet = new ArrayList();
@@ -44,9 +62,13 @@ class PageRater extends DataExtension {
 		$sqlQuery->setOrderBy("RatingAverage DESC");
 		$sqlQuery->setGroupby("\"ParentID\"");
 		$sqlQuery->setLimit(1);
-		return $this->turnSQLIntoArrayList($sqlQuery, "CurrentUserRating");
+		return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "CurrentUserRating");
 	}
 
+	/**
+	 *
+	 * @return ArrayList
+	 */
 	function PageRaterList() {
 		$doSet = new ArrayList();
 		$sqlQuery = new SQLQuery();
@@ -55,10 +77,16 @@ class PageRater extends DataExtension {
 		$sqlQuery->setWhere("\"ParentID\" = \"SiteTree\".\"ID\"");
 		$sqlQuery->setOrderBy("RatingAverage DESC");
 		$sqlQuery->setGroupby("\"ParentID\"");
-		return $this->turnSQLIntoArrayList($sqlQuery, "PageRaterList");
+		return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRaterList");
 	}
 
-	protected function turnSQLIntoArrayList(SQLQuery $sqlQuery, $method = "unknown") {
+	/**
+	 * @param SQLQuery $sqlQuery
+	 * @param string $method
+	 *
+	 * @return ArrayList
+	 */
+	protected function turnPageRaterSQLIntoArrayList(SQLQuery $sqlQuery, $method = "unknown") {
 		$data = $sqlQuery->execute();
 		$al = new ArrayList();
 		if($data) {
@@ -107,10 +135,17 @@ class PageRater extends DataExtension {
 		return $al;
 	}
 
+	/**
+	 * @return boolean
+	 */
 	function PageHasBeenRatedByUser() {
-		return Session::get('PageRated'.$this->owner->ID);
+		return Session::get('PageRated'.$this->owner->ID) ? true : false;
 	}
 
+	/**
+	 *
+	 * @return int
+	 */
 	function NumberOfPageRatings() {
 		$doSet = new ArrayList();
 		$sqlQuery = new SQLQuery();
@@ -190,12 +225,18 @@ class PageRater_Controller extends Extension {
 		"removeallpageratings"
 	);
 
-	function rateagain () {
+	/**
+	 * action to allow use to rate again...
+	 */
+	function rateagain($request) {
 		Session::set('PageRated'.$this->owner->dataRecord->ID, false);
 		Session::clear('PageRated'.$this->owner->dataRecord->ID);
 		return array();
 	}
 
+	/**
+	 * @return Form
+	 */
 	function PageRatingForm() {
 		Requirements::themedCSS('PageRater', "pagerater");
 		if($this->owner->PageHasBeenRatedByUser()) {
@@ -225,6 +266,9 @@ class PageRater_Controller extends Extension {
 		return new Form($this->owner, 'PageRatingForm', $fields, $actions);
 	}
 
+	/**
+	 * action Page Rating Form
+	 */
 	function dopagerating($data, $form) {
 		$data = Convert::raw2sql($data);
 		$PageRating = new PageRating();

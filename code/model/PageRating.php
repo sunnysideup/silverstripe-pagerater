@@ -15,31 +15,65 @@ class PageRating extends DataObject {
 		'5' => array("Code" => 'FiveStar', "Title" => "Five Stars")
 	);
 
+	/**
+	 *
+	 * @return array
+	 */
+	protected static function get_stars(){
+		return Config::inst()->get("PageRating", "stars");
+	}
 
-		static function get_star_entry_code($value) {
-			if(isset(self::$stars[$value]["Code"])) {
-				return self::$stars[$value]["Code"];
-			}
-			return "NA";
+	/**
+	 * returns something like OneStar
+	 * @param int $value
+	 *
+	 * @return string
+	 */
+	public static function get_star_entry_code($value) {
+		$stars = self::get_stars();
+		if(isset($stars[$value]["Code"])) {
+			return $stars[$value]["Code"];
 		}
-		static function get_star_entry_name($value) {
-			if(isset(self::$stars[$value]["Title"])) {
-				return self::$stars[$value]["Title"];
-			}
-			return "NA";
-		}
+		return "N/A";
+	}
 
-		static function get_star_dropdowndown() {
-			$array = self::get_stars();
-			$newArray = array();
-			if(count($array)) {
-				foreach($array as $key => $star) {
-					$newArray[$key] = $star["Title"];
-				}
-			}
-			return $newArray;
+	/**
+	 * returns something like One Star
+	 * @param int $value
+	 *
+	 * @return string
+	 */
+	public static function get_star_entry_name($value) {
+		$stars = self::get_stars();
+		if(isset($stars[$value]["Title"])) {
+			return $stars[$value]["Title"];
 		}
-		static function get_number_of_stars() {return count(self::$stars);}
+		return "N/A";
+	}
+
+	/**
+	 * returns something like
+	 *
+	 *     1 => One Star,
+	 *     2 => Two Star
+	 *
+	 * @return array
+	 */
+	public static function get_star_dropdowndown() {
+		$stars = self::get_stars();
+		$newArray = array();
+		if(count($stars)) {
+			foreach($stars as $key => $star) {
+				$newArray[$key] = $star["Title"];
+			}
+		}
+		return $newArray;
+	}
+
+	/**
+	 * return int
+	 */
+	public static function get_number_of_stars() {return count(self::get_stars());}
 
 	private static $db = array(
  		"Rating" => "Int",
@@ -58,10 +92,9 @@ class PageRating extends DataObject {
 
 	private static $plural_name = 'Page Ratings';
 
-	public static function update_ratings($SiteTreeID = 0) {
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
-		if($SiteTreeID) {
-			$where = "PageRating.ParentID = ".$SiteTreeID;
+	public static function update_ratings($siteTreeID = 0) {
+		if($siteTreeID) {
+			$where = "PageRating.ParentID = ".$siteTreeID;
 		}
 		else {
 			$where = "PageRating.ParentID > 0";
@@ -94,11 +127,10 @@ class PageRating extends DataObject {
 
 	function requireDefaultRecords() {
 		parent::requireDefaultRecords();
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		DB::query("DROP TABLE IF EXISTS PageRating_TEMP;");
 		DB::query("CREATE TABLE PageRating_TEMP (ParentID INTEGER(11), Rating INTEGER);");
-		DB::query("ALTER TABLE {$bt}PageRating_TEMP{$bt} ADD INDEX ( {$bt}ParentID{$bt} ) ");
-		DB::query("ALTER TABLE {$bt}PageRating_TEMP{$bt} ADD INDEX ( {$bt}Rating{$bt} ) ");
+		DB::query("ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"ParentID\" ) ");
+		DB::query("ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"Rating\" ) ");
 		DB::alteration_message("create PageRating_TEMP", "created");
 	}
 
