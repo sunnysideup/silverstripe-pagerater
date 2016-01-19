@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://xml.phpdox.net/src" full="PageRating" namespace="" name="PageRating" abstract="false" final="false" start="8" end="137">
+  <file path="/var/www/bo.ihtf.us/pagerater/code/model" file="PageRating.php" realpath="/var/www/bo.ihtf.us/pagerater/code/model/PageRating.php" size="3398" time="2016-01-19T18:53:54+13:00" unixtime="1453182834" sha1="f1c7690713a2ec922ac940dcf430520886d614a0" relative="code/model/PageRating.php"/>
+  <docblock>
+    <description/>
+    <author value="nicolaas [at] sunnysideup . co . nz"/>
+  </docblock>
+  <extends full="DataObject" namespace="" name="DataObject" unresolved="true"/>
+  <member name="stars" type="array" default="" visibility="private" static="true" line="10"/>
+  <method name="get_stars" start="22" end="24" abstract="false" final="false" static="true" visibility="protected">
+    <docblock>
+      <description/>
+      <return type="array"/>
+    </docblock>
+  </method>
+  <method name="get_star_entry_code" start="32" end="38" abstract="false" final="false" static="true" visibility="public">
+    <docblock>
+      <description compact="returns something like OneStar"/>
+      <param type="int" variable="$value"/>
+      <return type="string"/>
+    </docblock>
+    <parameter name="value" byreference="false" type="{unknown}"/>
+  </method>
+  <method name="get_star_entry_name" start="46" end="52" abstract="false" final="false" static="true" visibility="public">
+    <docblock>
+      <description compact="returns something like One Star"/>
+      <param type="int" variable="$value"/>
+      <return type="string"/>
+    </docblock>
+    <parameter name="value" byreference="false" type="{unknown}"/>
+  </method>
+  <method name="get_star_dropdowndown" start="62" end="71" abstract="false" final="false" static="true" visibility="public">
+    <docblock>
+      <description compact="returns something like">1 =&gt; One Star,
+    2 =&gt; Two Star</description>
+      <return type="array"/>
+    </docblock>
+  </method>
+  <method name="get_number_of_stars" start="76" end="76" abstract="false" final="false" static="true" visibility="public">
+    <docblock>
+      <description compact="return int"/>
+    </docblock>
+  </method>
+  <member name="db" type="array" default="" visibility="private" static="true" line="78"/>
+  <member name="has_one" type="array" default="" visibility="private" static="true" line="83"/>
+  <member name="summary_fields" type="array" default="" visibility="private" static="true" line="87"/>
+  <member name="default_sort" type="string" default="&quot;Created DESC&quot;" visibility="private" static="true" line="89"/>
+  <member name="singular_name" type="string" default="'Page Rating'" visibility="private" static="true" line="91"/>
+  <member name="plural_name" type="string" default="'Page Ratings'" visibility="private" static="true" line="93"/>
+  <method name="update_ratings" start="95" end="119" abstract="false" final="false" static="true" visibility="public">
+    <parameter name="siteTreeID" byreference="false" type="integer" default="0"/>
+  </method>
+  <method name="onBeforeWrite" start="121" end="126" abstract="false" final="false" static="false" visibility="public"/>
+  <method name="requireDefaultRecords" start="128" end="135" abstract="false" final="false" static="false" visibility="public"/>
+</class>
