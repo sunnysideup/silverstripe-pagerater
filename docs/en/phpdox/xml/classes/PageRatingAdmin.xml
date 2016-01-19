@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://xml.phpdox.net/src#" full="PageRatingAdmin" namespace="" name="PageRatingAdmin" abstract="false" final="false" start="8" end="18">
+  <file path="docs/en/phpdox/../../../code/model" file="PageRatingAdmin.php" realpath="/var/www/bo.ihtf.us/pagerater/code/model/PageRatingAdmin.php" size="284" time="2015-11-30T17:19:29+13:00" unixtime="1448857169" sha1="bafc730c7a5758dce6dcb49493ebdf245b5bb35a"/>
+  <docblock>
+    <description compact="author nicolaas[at] sunny side up .co .nz"/>
+  </docblock>
+  <extends full="ModelAdmin" namespace="" name="ModelAdmin"/>
+  <member name="managed_models" type="array" visibility="private" line="10"/>
+  <member name="url_segment" type="string" default="'page-rating'" visibility="private" line="14"/>
+  <member name="menu_title" type="string" default="'Ratings'" visibility="private" line="16"/>
+</class>
