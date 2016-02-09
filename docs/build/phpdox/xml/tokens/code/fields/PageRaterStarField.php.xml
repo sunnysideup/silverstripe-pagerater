@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <source xmlns="http://xml.phpdox.net/token">
-  <file xmlns="http://xml.phpdox.net/src" path="/var/www/bo.ihtf.us/pagerater/code/fields" file="PageRaterStarField.php" realpath="/var/www/bo.ihtf.us/pagerater/code/fields/PageRaterStarField.php" size="1635" time="2015-11-30T17:19:30+13:00" unixtime="1448857170" sha1="d45b9a46da96ff96b20265bb71aa7e8eec55b564" relative="code/fields/PageRaterStarField.php"/>
+  <file xmlns="http://xml.phpdox.net/src" path="/var/www/bo.ihtf.us/pagerater/code/fields" file="PageRaterStarField.php" realpath="/var/www/bo.ihtf.us/pagerater/code/fields/PageRaterStarField.php" size="1883" time="2016-02-09T20:07:35+00:00" unixtime="1455048455" sha1="b34bf400db9a6c1a2e7d82034d2073b1638aaaf1" relative="code/fields/PageRaterStarField.php"/>
   <line no="1">
     <token name="T_OPEN_TAG">&lt;?php</token>
   </line>
@@ -407,8 +407,58 @@
     <token name="T_PHPDOX_DOUBLE_QUOTES">"</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="43"/>
+  <line no="43">
+    <token name="T_WHITESPACE">		</token>
+    <token name="T_VARIABLE">$commentBoxID</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_PHPDOX_EQUAL">=</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_VARIABLE">$id</token>
+    <token name="T_PHPDOX_DOT">.</token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"_Comment"</token>
+    <token name="T_PHPDOX_SEMICOLON">;</token>
+  </line>
   <line no="44">
+    <token name="T_WHITESPACE">		</token>
+    <token name="T_VARIABLE">$textField</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_PHPDOX_EQUAL">=</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_STRING">TextareaField</token>
+    <token name="T_DOUBLE_COLON">::</token>
+    <token name="T_STRING">create</token>
+    <token name="T_PHPDOX_OPEN_BRACKET">(</token>
+    <token name="T_VARIABLE">$commentBoxID</token>
+    <token name="T_PHPDOX_COMMA">,</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"Any comments you may have"</token>
+    <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
+    <token name="T_PHPDOX_SEMICOLON">;</token>
+  </line>
+  <line no="45">
+    <token name="T_WHITESPACE">		</token>
+    <token name="T_VARIABLE">$textField</token>
+    <token name="T_OBJECT_OPERATOR">-&gt;</token>
+    <token name="T_STRING">addExtraClass</token>
+    <token name="T_PHPDOX_OPEN_BRACKET">(</token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"additionalComments"</token>
+    <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
+    <token name="T_PHPDOX_SEMICOLON">;</token>
+  </line>
+  <line no="46">
+    <token name="T_WHITESPACE">		</token>
+    <token name="T_VARIABLE">$html</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_CONCAT_EQUAL">.=</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_VARIABLE">$textField</token>
+    <token name="T_OBJECT_OPERATOR">-&gt;</token>
+    <token name="T_STRING">FieldHolder</token>
+    <token name="T_PHPDOX_OPEN_BRACKET">(</token>
+    <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
+    <token name="T_PHPDOX_SEMICOLON">;</token>
+  </line>
+  <line no="47">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">Requirements</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -416,50 +466,55 @@
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
     <token name="T_START_HEREDOC">&lt;&lt;&lt;JS</token>
   </line>
-  <line no="45">
+  <line no="48">
     <token name="T_ENCAPSED_AND_WHITESPACE">			jQuery('.</token>
     <token name="T_VARIABLE">$id</token>
     <token name="T_ENCAPSED_AND_WHITESPACE">').rating({</token>
   </line>
-  <line no="46">
+  <line no="49">
     <token name="T_ENCAPSED_AND_WHITESPACE">				required: true,</token>
   </line>
-  <line no="47">
+  <line no="50">
     <token name="T_ENCAPSED_AND_WHITESPACE">				callback: function(value, link) {</token>
   </line>
-  <line no="48">
+  <line no="51">
     <token name="T_ENCAPSED_AND_WHITESPACE">					jQuery('#</token>
     <token name="T_VARIABLE">$id</token>
     <token name="T_ENCAPSED_AND_WHITESPACE">').val(value);</token>
   </line>
-  <line no="49">
+  <line no="52">
+    <token name="T_ENCAPSED_AND_WHITESPACE">					jQuery('#</token>
+    <token name="T_VARIABLE">$commentBoxID</token>
+    <token name="T_ENCAPSED_AND_WHITESPACE">').fadeIn();</token>
+  </line>
+  <line no="53">
     <token name="T_ENCAPSED_AND_WHITESPACE">				}</token>
   </line>
-  <line no="50">
+  <line no="54">
     <token name="T_ENCAPSED_AND_WHITESPACE">			});</token>
   </line>
-  <line no="51">
+  <line no="55">
     <token name="T_END_HEREDOC">JS</token>
   </line>
-  <line no="52">
+  <line no="56">
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="53"/>
-  <line no="54">
+  <line no="57"/>
+  <line no="58">
     <token name="T_WHITESPACE">		</token>
     <token name="T_RETURN">return</token>
     <token name="T_WHITESPACE"> </token>
     <token name="T_VARIABLE">$html</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="55">
+  <line no="59">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="56"/>
-  <line no="57">
+  <line no="60"/>
+  <line no="61">
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="58"/>
+  <line no="62"/>
 </source>
