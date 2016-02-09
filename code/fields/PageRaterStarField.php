@@ -40,12 +40,16 @@ class PageRaterStarField extends FormField {
 			}
 		}
 		$html .= "<input name='$name' type='hidden' id='$id' />";
-
+		$commentBoxID = $id."_Comment";
+		$textField = TextareaField::create($commentBoxID, "Any comments you may have");
+		$textField->addExtraClass("additionalComments");
+		$html .= $textField->FieldHolder();
 		Requirements::customScript(<<<JS
 			jQuery('.$id').rating({
 				required: true,
 				callback: function(value, link) {
 					jQuery('#$id').val(value);
+					jQuery('#$commentBoxID').fadeIn();
 				}
 			});
 JS
