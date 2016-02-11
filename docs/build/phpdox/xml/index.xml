@@ -3,8 +3,8 @@
   <namespace name="">
     <class name="PageRater" src="code/extensions/PageRater.php" xml="classes/PageRater.xml"/>
     <class name="PageRater_Controller" src="code/extensions/PageRater.php" xml="classes/PageRater_Controller.xml"/>
-    <class name="PageRating" src="code/model/PageRating.php" xml="classes/PageRating.xml"/>
+    
     <class name="PageRatingAdmin" src="code/model/PageRatingAdmin.php" xml="classes/PageRatingAdmin.xml"/>
-    <class name="PageRaterStarField" src="code/fields/PageRaterStarField.php" xml="classes/PageRaterStarField.xml"/>
-  </namespace>
+    
+  <class name="PageRaterStarField" src="code/fields/PageRaterStarField.php" xml="classes/PageRaterStarField.xml"/><class name="PageRating" src="code/model/PageRating.php" xml="classes/PageRating.xml"/></namespace>
 </index>

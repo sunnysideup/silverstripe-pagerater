@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <source xmlns="http://xml.phpdox.net/token">
-  <file xmlns="http://xml.phpdox.net/src" path="/var/www/bo.ihtf.us/pagerater/code/model" file="PageRating.php" realpath="/var/www/bo.ihtf.us/pagerater/code/model/PageRating.php" size="3398" time="2016-01-19T18:53:54+13:00" unixtime="1453182834" sha1="f1c7690713a2ec922ac940dcf430520886d614a0" relative="code/model/PageRating.php"/>
+  <file xmlns="http://xml.phpdox.net/src" path="/var/www/bo.ihtf.us/pagerater/code/model" file="PageRating.php" realpath="/var/www/bo.ihtf.us/pagerater/code/model/PageRating.php" size="3423" time="2016-02-09T20:08:25+00:00" unixtime="1455048505" sha1="ba4f5f6ddd3a48d7d520678b09682132a5764277" relative="code/model/PageRating.php"/>
   <line no="1">
     <token name="T_OPEN_TAG">&lt;?php</token>
   </line>
@@ -589,19 +589,28 @@
   </line>
   <line no="80">
     <token name="T_WHITESPACE"> 		</token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"Comment"</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_DOUBLE_ARROW">=&gt;</token>
+    <token name="T_WHITESPACE"> </token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"Text"</token>
+    <token name="T_PHPDOX_COMMA">,</token>
+  </line>
+  <line no="81">
+    <token name="T_WHITESPACE"> 		</token>
     <token name="T_CONSTANT_ENCAPSED_STRING">"IsDefault"</token>
     <token name="T_WHITESPACE"> </token>
     <token name="T_DOUBLE_ARROW">=&gt;</token>
     <token name="T_WHITESPACE"> </token>
     <token name="T_CONSTANT_ENCAPSED_STRING">"Boolean"</token>
   </line>
-  <line no="81">
+  <line no="82">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="82"/>
-  <line no="83">
+  <line no="83"/>
+  <line no="84">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PRIVATE">private</token>
     <token name="T_WHITESPACE"> </token>
@@ -614,7 +623,7 @@
     <token name="T_ARRAY">array</token>
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
   </line>
-  <line no="84">
+  <line no="85">
     <token name="T_WHITESPACE">		</token>
     <token name="T_CONSTANT_ENCAPSED_STRING">"Parent"</token>
     <token name="T_WHITESPACE"> </token>
@@ -622,13 +631,13 @@
     <token name="T_WHITESPACE"> </token>
     <token name="T_CONSTANT_ENCAPSED_STRING">"Page"</token>
   </line>
-  <line no="85">
+  <line no="86">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="86"/>
-  <line no="87">
+  <line no="87"/>
+  <line no="88">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PRIVATE">private</token>
     <token name="T_WHITESPACE"> </token>
@@ -647,8 +656,8 @@
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="88"/>
-  <line no="89">
+  <line no="89"/>
+  <line no="90">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PRIVATE">private</token>
     <token name="T_WHITESPACE"> </token>
@@ -661,8 +670,8 @@
     <token name="T_CONSTANT_ENCAPSED_STRING">"Created DESC"</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="90"/>
-  <line no="91">
+  <line no="91"/>
+  <line no="92">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PRIVATE">private</token>
     <token name="T_WHITESPACE"> </token>
@@ -675,8 +684,8 @@
     <token name="T_CONSTANT_ENCAPSED_STRING">'Page Rating'</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="92"/>
-  <line no="93">
+  <line no="93"/>
+  <line no="94">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PRIVATE">private</token>
     <token name="T_WHITESPACE"> </token>
@@ -689,8 +698,8 @@
     <token name="T_CONSTANT_ENCAPSED_STRING">'Page Ratings'</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="94"/>
-  <line no="95">
+  <line no="95"/>
+  <line no="96">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PUBLIC">public</token>
     <token name="T_WHITESPACE"> </token>
@@ -709,7 +718,7 @@
     <token name="T_WHITESPACE"> </token>
     <token name="T_PHPDOX_OPEN_CURLY">{</token>
   </line>
-  <line no="96">
+  <line no="97">
     <token name="T_WHITESPACE">		</token>
     <token name="T_IF">if</token>
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
@@ -718,7 +727,7 @@
     <token name="T_WHITESPACE"> </token>
     <token name="T_PHPDOX_OPEN_CURLY">{</token>
   </line>
-  <line no="97">
+  <line no="98">
     <token name="T_WHITESPACE">			</token>
     <token name="T_VARIABLE">$where</token>
     <token name="T_WHITESPACE"> </token>
@@ -729,17 +738,17 @@
     <token name="T_VARIABLE">$siteTreeID</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="98">
+  <line no="99">
     <token name="T_WHITESPACE">		</token>
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="99">
+  <line no="100">
     <token name="T_WHITESPACE">		</token>
     <token name="T_ELSE">else</token>
     <token name="T_WHITESPACE"> </token>
     <token name="T_PHPDOX_OPEN_CURLY">{</token>
   </line>
-  <line no="100">
+  <line no="101">
     <token name="T_WHITESPACE">			</token>
     <token name="T_VARIABLE">$where</token>
     <token name="T_WHITESPACE"> </token>
@@ -748,11 +757,11 @@
     <token name="T_CONSTANT_ENCAPSED_STRING">"PageRating.ParentID &gt; 0"</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="101">
+  <line no="102">
     <token name="T_WHITESPACE">		</token>
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="102">
+  <line no="103">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">DB</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -762,7 +771,7 @@
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="103">
+  <line no="104">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">DB</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -770,32 +779,32 @@
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
     <token name="T_PHPDOX_DOUBLE_QUOTES">"</token>
   </line>
-  <line no="104">
+  <line no="105">
     <token name="T_ENCAPSED_AND_WHITESPACE">			INSERT INTO PageRating_TEMP</token>
   </line>
-  <line no="105">
+  <line no="106">
     <token name="T_ENCAPSED_AND_WHITESPACE">			SELECT ParentID, (ROUND(AVG(PageRating.Rating) * 100))</token>
   </line>
-  <line no="106">
+  <line no="107">
     <token name="T_ENCAPSED_AND_WHITESPACE">			FROM PageRating</token>
   </line>
-  <line no="107">
+  <line no="108">
     <token name="T_ENCAPSED_AND_WHITESPACE">			WHERE </token>
     <token name="T_VARIABLE">$where</token>
   </line>
-  <line no="108">
+  <line no="109">
     <token name="T_ENCAPSED_AND_WHITESPACE">			GROUP BY PageRating.ParentID;</token>
   </line>
-  <line no="109">
+  <line no="110">
     <token name="T_ENCAPSED_AND_WHITESPACE">			</token>
     <token name="T_PHPDOX_DOUBLE_QUOTES">"</token>
   </line>
-  <line no="110">
+  <line no="111">
     <token name="T_WHITESPACE">		</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="111">
+  <line no="112">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">DB</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -803,18 +812,18 @@
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
     <token name="T_CONSTANT_ENCAPSED_STRING">"</token>
   </line>
-  <line no="112">
+  <line no="113">
     <token name="T_CONSTANT_ENCAPSED_STRING">			UPDATE SiteTree</token>
   </line>
-  <line no="113">
+  <line no="114">
     <token name="T_CONSTANT_ENCAPSED_STRING">				INNER JOIN PageRating_TEMP ON SiteTree.ID = PageRating_TEMP.ParentID</token>
   </line>
-  <line no="114">
+  <line no="115">
     <token name="T_CONSTANT_ENCAPSED_STRING">			SET SiteTree.PageRating = (PageRating_TEMP.Rating / 100);"</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="115">
+  <line no="116">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">DB</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -822,23 +831,23 @@
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
     <token name="T_CONSTANT_ENCAPSED_STRING">"</token>
   </line>
-  <line no="116">
+  <line no="117">
     <token name="T_CONSTANT_ENCAPSED_STRING">			UPDATE SiteTree_Live</token>
   </line>
-  <line no="117">
+  <line no="118">
     <token name="T_CONSTANT_ENCAPSED_STRING">				INNER JOIN PageRating_TEMP ON SiteTree_Live.ID = PageRating_TEMP.ParentID</token>
   </line>
-  <line no="118">
+  <line no="119">
     <token name="T_CONSTANT_ENCAPSED_STRING">			SET SiteTree_Live.PageRating = (PageRating_TEMP.Rating / 100);"</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="119">
+  <line no="120">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="120"/>
-  <line no="121">
+  <line no="121"/>
+  <line no="122">
     <token name="T_WHITESPACE">	</token>
     <token name="T_FUNCTION">function</token>
     <token name="T_WHITESPACE"> </token>
@@ -848,7 +857,7 @@
     <token name="T_WHITESPACE"> </token>
     <token name="T_PHPDOX_OPEN_CURLY">{</token>
   </line>
-  <line no="122">
+  <line no="123">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">parent</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -857,7 +866,7 @@
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="123">
+  <line no="124">
     <token name="T_WHITESPACE">		</token>
     <token name="T_IF">if</token>
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
@@ -868,7 +877,7 @@
     <token name="T_WHITESPACE"> </token>
     <token name="T_PHPDOX_OPEN_CURLY">{</token>
   </line>
-  <line no="124">
+  <line no="125">
     <token name="T_WHITESPACE">			</token>
     <token name="T_STRING">self</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -880,16 +889,16 @@
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="125">
+  <line no="126">
     <token name="T_WHITESPACE">		</token>
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="126">
+  <line no="127">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="127"/>
-  <line no="128">
+  <line no="128"/>
+  <line no="129">
     <token name="T_WHITESPACE">	</token>
     <token name="T_FUNCTION">function</token>
     <token name="T_WHITESPACE"> </token>
@@ -899,22 +908,12 @@
     <token name="T_WHITESPACE"> </token>
     <token name="T_PHPDOX_OPEN_CURLY">{</token>
   </line>
-  <line no="129">
+  <line no="130">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">parent</token>
     <token name="T_DOUBLE_COLON">::</token>
     <token name="T_STRING">requireDefaultRecords</token>
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
-    <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
-    <token name="T_PHPDOX_SEMICOLON">;</token>
-  </line>
-  <line no="130">
-    <token name="T_WHITESPACE">		</token>
-    <token name="T_STRING">DB</token>
-    <token name="T_DOUBLE_COLON">::</token>
-    <token name="T_STRING">query</token>
-    <token name="T_PHPDOX_OPEN_BRACKET">(</token>
-    <token name="T_CONSTANT_ENCAPSED_STRING">"DROP TABLE IF EXISTS PageRating_TEMP;"</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
@@ -924,7 +923,7 @@
     <token name="T_DOUBLE_COLON">::</token>
     <token name="T_STRING">query</token>
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
-    <token name="T_CONSTANT_ENCAPSED_STRING">"CREATE TABLE PageRating_TEMP (ParentID INTEGER(11), Rating INTEGER);"</token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"DROP TABLE IF EXISTS PageRating_TEMP;"</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
@@ -934,7 +933,7 @@
     <token name="T_DOUBLE_COLON">::</token>
     <token name="T_STRING">query</token>
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
-    <token name="T_CONSTANT_ENCAPSED_STRING">"ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"ParentID\" ) "</token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"CREATE TABLE PageRating_TEMP (ParentID INTEGER(11), Rating INTEGER);"</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
@@ -944,11 +943,21 @@
     <token name="T_DOUBLE_COLON">::</token>
     <token name="T_STRING">query</token>
     <token name="T_PHPDOX_OPEN_BRACKET">(</token>
-    <token name="T_CONSTANT_ENCAPSED_STRING">"ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"Rating\" ) "</token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"ParentID\" ) "</token>
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
   <line no="134">
+    <token name="T_WHITESPACE">		</token>
+    <token name="T_STRING">DB</token>
+    <token name="T_DOUBLE_COLON">::</token>
+    <token name="T_STRING">query</token>
+    <token name="T_PHPDOX_OPEN_BRACKET">(</token>
+    <token name="T_CONSTANT_ENCAPSED_STRING">"ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"Rating\" ) "</token>
+    <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
+    <token name="T_PHPDOX_SEMICOLON">;</token>
+  </line>
+  <line no="135">
     <token name="T_WHITESPACE">		</token>
     <token name="T_STRING">DB</token>
     <token name="T_DOUBLE_COLON">::</token>
@@ -961,14 +970,14 @@
     <token name="T_PHPDOX_CLOSE_BRACKET">)</token>
     <token name="T_PHPDOX_SEMICOLON">;</token>
   </line>
-  <line no="135">
+  <line no="136">
     <token name="T_WHITESPACE">	</token>
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="136"/>
-  <line no="137">
+  <line no="137"/>
+  <line no="138">
     <token name="T_PHPDOX_CLOSE_CURLY">}</token>
   </line>
-  <line no="138"/>
   <line no="139"/>
+  <line no="140"/>
 </source>

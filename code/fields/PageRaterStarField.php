@@ -8,6 +8,8 @@ class PageRaterStarField extends FormField {
 
 	private static $extra_form_selector = '';
 
+	private static $allow_comments = false;
+
 	/**
 	 * Returns an input field, class="start field" and type="hidden" with an optional maxlength
 	 */
@@ -40,17 +42,24 @@ class PageRaterStarField extends FormField {
 			}
 		}
 		$html .= "<input name='$name' type='hidden' id='$id' />";
-
+		$jsForComments = '';
+		if($this->Config()->get("allow_comments")) {
+			$commentBoxID = $id."_Comment";
+			$textField = TextareaField::create($commentBoxID, "Any comments you may have");
+			$textField->addExtraClass("additionalComments");
+			$html .= $textField->FieldHolder();
+			$jsForComments = "jQuery('#".$commentBoxID."').fadeIn();";
+		}
 		Requirements::customScript(<<<JS
 			jQuery('.$id').rating({
 				required: true,
 				callback: function(value, link) {
 					jQuery('#$id').val(value);
+					$jsForComments
 				}
 			});
 JS
 );
-
 		return $html;
 	}
 

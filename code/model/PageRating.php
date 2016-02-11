@@ -77,6 +77,7 @@ class PageRating extends DataObject {
 
 	private static $db = array(
  		"Rating" => "Int",
+ 		"Comment" => "Text",
  		"IsDefault" => "Boolean"
 	);
 
