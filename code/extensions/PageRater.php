@@ -162,28 +162,36 @@ class PageRater extends DataExtension {
 
 	function requireDefaultRecords() {
 		parent::requireDefaultRecords();
-		if(Config::inst()->get("PageRater", "add_default_rating")) {
-			$pages = SiteTree::get()
-				->where( "\"PageRating\".\"ID\" IS NULL")
-				->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
-			if($pages) {
-				foreach($pages as $page) {
-					$count = 0;
-					$max = PageRating::get_number_of_stars();
-					$goingBackTo = ($max / rand(1, $max)) - 1;
-					$stepsBack = $max - $goingBackTo;
-					$ratings = Config::inst()->get("PageRater", "number_of_default_records_to_be_added") / $stepsBack;
-					for($i = 1; $i <= $ratings; $i++) {
-						for($j = $max; $j > $goingBackTo; $j--) {
-							$PageRating = new PageRating();
-							$PageRating->Rating = round(rand(1, $j));
-							$PageRating->IsDefault = 1;
-							$PageRating->ParentID = $page->ID;
-							$PageRating->write();
-							$count++;
+		$step = 50;
+		for($i = 0; $i < 1000000; $i = $i + $step) {
+			if(Config::inst()->get("PageRater", "add_default_rating")) {
+				$pages = SiteTree::get()
+					->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"")
+					->where("\"PageRating\".\"ID\" IS NULL")
+					->limit($step, $i);
+					
+				if($pages->count()) {
+					foreach($pages as $page) {
+						$count = 0;
+						$max = PageRating::get_number_of_stars();
+						$goingBackTo = ($max / rand(1, $max)) - 1;
+						$stepsBack = $max - $goingBackTo;
+						$ratings = Config::inst()->get("PageRater", "number_of_default_records_to_be_added") / $stepsBack;
+						for($i = 1; $i <= $ratings; $i++) {
+							for($j = $max; $j > $goingBackTo; $j--) {
+								$PageRating = new PageRating();
+								$PageRating->Rating = round(rand(1, $j));
+								$PageRating->IsDefault = 1;
+								$PageRating->ParentID = $page->ID;
+								$PageRating->write();
+								$count++;
+							}
 						}
+						DB::alteration_message("Created Initial Ratings for Page with title ".$page->Title.". Ratings created: $count","created");
 					}
-					DB::alteration_message("Created Initial Ratings for Page with title ".$page->Title.". Ratings created: $count","created");
+				}
+				else {
+					$i = 9999999;
 				}
 			}
 		}
