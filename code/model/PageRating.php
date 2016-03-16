@@ -85,13 +85,28 @@ class PageRating extends DataObject {
 		"Parent" => "Page"
 	);
 
-	private static $summary_fields = array("Rating", "Parent.Title");
+	private static $summary_fields = array(
+		"Score" => "Rating",
+		"Page" => "Parent.Title"
+	);
+
+	private static $field_labels = array(
+		"Rating" => "Score",
+		"Parent.Title" => "Page"
+	);
 
 	private static $default_sort = "Created DESC";
 
 	private static $singular_name = 'Page Rating';
 
 	private static $plural_name = 'Page Ratings';
+
+
+	public function getCMSFields() {
+		$fields = parent::getCMSFields();
+		$fields->replaceField("Rating", new PageRaterStarField("Rating"));
+		return $fields;
+	}
 
 	public static function update_ratings($siteTreeID = 0) {
 		if($siteTreeID) {
