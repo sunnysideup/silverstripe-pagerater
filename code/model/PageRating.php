@@ -76,16 +76,18 @@ class PageRating extends DataObject {
 	public static function get_number_of_stars() {return count(self::get_stars());}
 
 	private static $db = array(
- 		"Rating" => "Int",
- 		"Comment" => "Text",
- 		"IsDefault" => "Boolean"
+		"Rating" => "Int",
+		"Comment" => "Text",
+		"IsDefault" => "Boolean"
 	);
 
 	private static $has_one = array(
-		"Parent" => "Page"
+		"Parent" => "SiteTree"
 	);
 
-	private static $summary_fields = array("Rating", "Parent.Title");
+	private static $summary_fields = array(
+		"Rating", "Parent.Title"
+	);
 
 	private static $default_sort = "Created DESC";
 
