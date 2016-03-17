@@ -107,8 +107,8 @@ class PageRating extends DataObject {
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 		$labels = $this->FieldLabels();
-		$fields->replaceField("Rating", new PageRaterStarField("Rating"));
-		$fields->removeFieldFromTab("Root.Main", "Comment");
+		$fields->replaceField("Rating", new OptionSetField("Rating", ));
+		//$fields->removeFieldFromTab("Root.Main", "Comment");
 		$fields->makeFieldReadonly("OrderID");
 		$fields->removeFieldFromTab("Root.Main", "ParentID");
 		if($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
