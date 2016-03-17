@@ -92,7 +92,9 @@ class PageRating extends DataObject {
 
 	private static $field_labels = array(
 		"Rating" => "Score",
-		"Parent.Title" => "Page"
+		"Parent.Title" => "Page",
+		"IsDefault" => "Default Entry Only",
+		"Parent" => "Rating for"
 	);
 
 	private static $default_sort = "Created DESC";
@@ -104,7 +106,16 @@ class PageRating extends DataObject {
 
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();
+		$labels = $this->FieldLabels();
 		$fields->replaceField("Rating", new PageRaterStarField("Rating"));
+		$fields->removeFieldFromTab("Root.Main", "Comment");
+		$fields->makeFieldReadonly("OrderID");
+		$fields->removeFieldFromTab("Root.Main", "ParentID");
+		if($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
+			$fields->addFieldToTab("Root.Main", $readonlyField = ReadonlyField::create("ParentDescription", $labels["Parent"], "<p>".$this->Parent()->Title."</p>"));
+		}
+		$readonlyField->dontEscape = true;
+		$fields->makeFieldReadonly("IsDefault");
 		return $fields;
 	}
 
