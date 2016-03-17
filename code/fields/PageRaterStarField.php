@@ -13,9 +13,14 @@ class PageRaterStarField extends FormField {
 	/**
 	 * Returns an input field, class="start field" and type="hidden" with an optional maxlength
 	 */
-	function __construct($name, $title = null, $value = "", $starOptions, $form = null) {
+	function __construct($name, $title = null, $value = "", $starOptions = null, $form = null) {
 
-		$this->starOptions = $starOptions;
+		if($starOptions) {
+			$this->starOptions = $starOptions;
+		}
+		else {
+			$this->starOptions = PageRating::get_number_of_stars();
+		}
 
 		parent::__construct($name, $title, $value, $form);
 	}

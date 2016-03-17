@@ -76,17 +76,23 @@ class PageRating extends DataObject {
 	public static function get_number_of_stars() {return count(self::get_stars());}
 
 	private static $db = array(
-		"Rating" => "Int",
-		"Comment" => "Text",
-		"IsDefault" => "Boolean"
+ 		"Rating" => "Int",
+ 		"Comment" => "Text",
+ 		"IsDefault" => "Boolean"
 	);
 
 	private static $has_one = array(
-		"Parent" => "SiteTree"
+		"Parent" => "Page"
 	);
 
 	private static $summary_fields = array(
-		"Rating", "Parent.Title"
+		"Score" => "Rating",
+		"Page" => "Parent.Title"
+	);
+
+	private static $field_labels = array(
+		"Rating" => "Score",
+		"Parent.Title" => "Page"
 	);
 
 	private static $default_sort = "Created DESC";
@@ -94,6 +100,13 @@ class PageRating extends DataObject {
 	private static $singular_name = 'Page Rating';
 
 	private static $plural_name = 'Page Ratings';
+
+
+	public function getCMSFields() {
+		$fields = parent::getCMSFields();
+		$fields->replaceField("Rating", new PageRaterStarField("Rating"));
+		return $fields;
+	}
 
 	public static function update_ratings($siteTreeID = 0) {
 		if($siteTreeID) {
