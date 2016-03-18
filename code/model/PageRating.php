@@ -87,7 +87,8 @@ class PageRating extends DataObject {
 
 	private static $summary_fields = array(
 		"Score" => "Rating",
-		"Page" => "Parent.Title"
+		"Page" => "Parent.Title",
+		"Comment" => "Comment"
 	);
 
 	private static $field_labels = array(
@@ -107,12 +108,12 @@ class PageRating extends DataObject {
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 		$labels = $this->FieldLabels();
-		$fields->replaceField("Rating", new OptionSetField("Rating", ));
+		$fields->replaceField("Rating", OptionSetField::create("Rating", $labels["Rating"], self::get_star_dropdowndown()));
 		//$fields->removeFieldFromTab("Root.Main", "Comment");
 		$fields->makeFieldReadonly("OrderID");
 		$fields->removeFieldFromTab("Root.Main", "ParentID");
 		if($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
-			$fields->addFieldToTab("Root.Main", $readonlyField = ReadonlyField::create("ParentDescription", $labels["Parent"], "<p>".$this->Parent()->Title."</p>"));
+			$fields->addFieldToTab("Root.Main", $readonlyField = ReadonlyField::create("ParentDescription", $labels["Parent"], "<p><a href=\"".$this->Parent()->CMSEditLink()."\">".$this->Parent()->Title."</a></p>"));
 		}
 		$readonlyField->dontEscape = true;
 		$fields->makeFieldReadonly("IsDefault");
@@ -159,6 +160,18 @@ class PageRating extends DataObject {
 		DB::query("ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"ParentID\" ) ");
 		DB::query("ALTER TABLE \"PageRating_TEMP\" ADD INDEX ( \"Rating\" ) ");
 		DB::alteration_message("create PageRating_TEMP", "created");
+	}
+
+	function canCreate($member = null) {
+		return false;
+	}
+
+	function canDelete($member = null) {
+		return false;
+	}
+
+	function canEdit($member = null) {
+		return false;
 	}
 
 }

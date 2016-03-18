@@ -12,6 +12,10 @@ class PageRater extends DataExtension {
 		'PageRating' => 'Double'
 	);
 
+	private static $has_many = array(
+		'PageRatings' => 'PageRating'
+	);
+
 	private static $indexes = array(
 		'PageRating' => true
 	);
@@ -31,6 +35,18 @@ class PageRater extends DataExtension {
 	 * @var boolean
 	 */
 	private static $number_of_default_records_to_be_added = 5;
+
+	function updateCMSFields(FieldList $fields) {
+		$fields->addFieldToTab(
+			"Root.Ratings",
+			GridField::create(
+				"PageRatings",
+				Injector::inst()->get("PageRating")->plural_name(),
+				$this->owner->PageRatings(),
+				GridFieldConfig_RecordViewer::create()
+			)
+		);
+	}
 
 	/**
 	 * rating for this page ...
@@ -169,7 +185,7 @@ class PageRater extends DataExtension {
 					->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"")
 					->where("\"PageRating\".\"ID\" IS NULL")
 					->limit($step, $i);
-					
+
 				if($pages->count()) {
 					foreach($pages as $page) {
 						$count = 0;
