@@ -18,6 +18,8 @@ PageRating:
 PageRaterStarField:
   extra_form_selector: 'form#PageCommentInterface_Form_PostCommentForm'
   allow_comments: true
+  allow_title: true
+  allow_name: true
 
 
 PageRater:

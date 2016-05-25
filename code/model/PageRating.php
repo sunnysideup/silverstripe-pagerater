@@ -78,6 +78,7 @@ class PageRating extends DataObject {
     private static $db = array(
          "Rating" => "Int",
          "Title" => "Varchar(100)",
+         "Name" => "Varchar(100)",
          "Comment" => "Text",
          "IsDefault" => "Boolean"
     );
@@ -111,7 +112,6 @@ class PageRating extends DataObject {
         $labels = $this->FieldLabels();
         $fields->replaceField("Rating", OptionSetField::create("Rating", $labels["Rating"], self::get_star_dropdowndown()));
         //$fields->removeFieldFromTab("Root.Main", "Comment");
-        $fields->makeFieldReadonly("OrderID");
         $fields->removeFieldFromTab("Root.Main", "ParentID");
         if($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
             $fields->addFieldToTab("Root.Main", $readonlyField = ReadonlyField::create("ParentDescription", $labels["Parent"], "<p><a href=\"".$this->Parent()->CMSEditLink()."\">".$this->Parent()->Title."</a></p>"));
