@@ -218,7 +218,7 @@ class PageRater extends DataExtension {
      * @return Double
      */
      function getStarRating() {
-        $ratings = $this->PageRatingResults();
+        $ratings = $this->owner->PageRatingResults();
         $rating = 0;
         if($ratings->Count() == 1) {
             foreach($ratings as $ratingItem) {
@@ -307,7 +307,7 @@ class PageRater_Controller extends Extension {
             return $this->owner->renderWith("PageRaterAjaxReturn");
         }
         else {
-            $this->redirectBack();
+            $this->owner->redirectBack();
         }
     }
 
