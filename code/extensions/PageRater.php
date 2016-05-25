@@ -308,7 +308,6 @@ class PageRater_Controller extends Extension {
      * action Page Rating Form
      */
     function dopagerating($data, $form) {
-        print_r($data);
         $id = $this->owner->dataRecord->ID;
         $fieldName = "Form_PageRatingForm_RatingFor".$id;
         $data = Convert::raw2sql($data);
@@ -328,8 +327,6 @@ class PageRater_Controller extends Extension {
             $pageRating->Title = Convert::raw2sql($data[$fieldName."_Title"]);
         }
         $pageRating->write();
-        print_r($pageRating);
-        die("sdfdf");
         Session::set('PageRated'.$this->owner->dataRecord->ID, $pageRating->ID);
         if(Director::is_ajax()) {
             return $this->owner->renderWith("PageRaterAjaxReturn");
