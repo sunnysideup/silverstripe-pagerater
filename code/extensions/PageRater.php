@@ -2,7 +2,9 @@
 
 /**
  *@author nicolaas [at] sunnysideup up .co .nz
+ * <% looo $PageRatings %>
  *
+ * <% end_loop %>
  *
  **/
 
@@ -82,9 +84,19 @@ class PageRater extends DataExtension {
      * list of all rated pages ...
      * @return ArrayList
      */
-    function PageRaterList() {
+    function PageRaterListOfAllForPage() {
         $sqlQuery = new SQLQuery();
         $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") AS RatingAverage, \"PageRating\".\"ParentID\"");
+        $sqlQuery->setFrom(" \"PageRating\"");
+        $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID);
+        $sqlQuery->addInnerJoin("SiteTree", " \"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
+        $sqlQuery->setOrderBy("\"Created\" DESC");
+        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRaterList");
+    }
+
+    function PageRaterListAll(){
+        $sqlQuery = new SQLQuery();
+        $sqlQuery->setSelect("\"PageRating\".\"Rating\" AS RatingAverage, \"PageRating\".\"ParentID\"");
         $sqlQuery->setFrom(" \"PageRating\"");
         $sqlQuery->addInnerJoin("SiteTree", " \"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
         $sqlQuery->setOrderBy("RatingAverage DESC");
