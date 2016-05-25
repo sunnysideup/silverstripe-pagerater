@@ -77,8 +77,8 @@ class PageRating extends DataObject {
 
     private static $db = array(
          "Rating" => "Int",
-         "Title" => "Varchar(100)",
          "Name" => "Varchar(100)",
+         "Title" => "Varchar(100)",
          "Comment" => "Text",
          "IsDefault" => "Boolean"
     );
@@ -88,8 +88,8 @@ class PageRating extends DataObject {
     );
 
     private static $summary_fields = array(
-        "Score" => "Rating",
-        "Page" => "Parent.Title",
+        "Rating" => "Score",
+        "Parent.Title" => "Page",
         "Comment" => "Comment"
     );
 
@@ -115,6 +115,24 @@ class PageRating extends DataObject {
         $fields->removeFieldFromTab("Root.Main", "ParentID");
         if($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
             $fields->addFieldToTab("Root.Main", $readonlyField = ReadonlyField::create("ParentDescription", $labels["Parent"], "<p><a href=\"".$this->Parent()->CMSEditLink()."\">".$this->Parent()->Title."</a></p>"));
+        }
+        if( Config::inst()->get("PageRaterStarField", "allow_name")) {
+            //do nothing
+        }
+        else {
+            $fields->removeFieldFromTab("Root.Main", "Name");
+        }
+        if( Config::inst()->get("PageRaterStarField", "allow_title")) {
+            //do nothing
+        }
+        else {
+            $fields->removeFieldFromTab("Root.Main", "Title");
+        }
+        if( Config::inst()->get("PageRaterStarField", "allow_comments")) {
+            //do nothing
+        }
+        else {
+            $fields->removeFieldFromTab("Root.Main", "Comment");
         }
         $readonlyField->dontEscape = true;
         $fields->makeFieldReadonly("IsDefault");
