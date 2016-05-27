@@ -51,14 +51,14 @@ class PageRaterStarField extends FormField {
             }
         }
         $html .= "<input name='$name' type='hidden' id='$id' />";
-        $moreJS = '';
+        $moreFieldsArray = array();
 
         if($this->Config()->get("allow_name")) {
             $fieldID = $id."_Name";
             $nameField = TextField::create($fieldID, _t("PageRaterStarField.NAME_LABEL", "Your Name"));
             $nameField->addExtraClass("additionalComments");
             $html .= $nameField->FieldHolder();
-            $moreJS .= "jQuery('#".$fieldID."').fadeIn();";
+            $moreFieldsArray[] = $fieldID;
         }
 
         if($this->Config()->get("allow_title")) {
@@ -66,7 +66,7 @@ class PageRaterStarField extends FormField {
             $titleField = TextField::create($fieldID, _t("PageRaterStarField.TITLE_LABEL", "Comment Header"));
             $titleField->addExtraClass("additionalComments");
             $html .= $titleField->FieldHolder();
-            $moreJS .= "jQuery('#".$fieldID."').fadeIn();";
+            $moreFieldsArray[] = $fieldID;
         }
 
         if($this->Config()->get("allow_comments")) {
@@ -74,19 +74,15 @@ class PageRaterStarField extends FormField {
             $commentField = TextareaField::create($fieldID, _t("PageRaterStarField.COMMENTS_LABEL", "Any comments you may have"));
             $commentField->addExtraClass("additionalComments");
             $html .= $commentField->FieldHolder();
-            $moreJS .= "jQuery('#".$fieldID."').fadeIn();";
+            $moreFieldsArray[] = $fieldID;
         }
-
-        Requirements::customScript(<<<JS
-            jQuery('.$id').rating({
-                required: true,
-                callback: function(value, link) {
-                    jQuery('#$id').val(value);
-                    $moreJS
-                }
-            });
-JS
-);
+        $moreFieldsAsString = implode("', '", $moreFieldsArray);
+        Requirements::customScript('
+            if(typeof PageRaterVariables === "undefined") {
+                var PageRaterVariables = [];
+            }
+            PageRaterVariables.push({id: \''.$id.'\', fields: [\''.$moreFieldsAsString.'\']});
+        ');
         return $html;
     }
 
