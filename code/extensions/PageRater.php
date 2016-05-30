@@ -117,8 +117,8 @@ class PageRater extends DataExtension {
             foreach($data as $record) {
                 $score = $record["RatingAverage"];
                 $parentID = $record["ParentID"];
-                $record = PageRating::get_star_details_as_array_data($score, $parentID);
-                $al->push($record);
+                $record =
+                $al->push(new ArrayData($record));
             }
         }
         return $al;
