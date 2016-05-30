@@ -116,44 +116,9 @@ class PageRater extends DataExtension {
         if($data) {
             foreach($data as $record) {
                 $score = $record["RatingAverage"];
-                $stars = $score;
-                if(Config::inst()->get("PageRater", "round_rating")) {
-                    $stars = round($stars);
-                }
-                $widthOutOfOneHundredForEachStar = 100 / PageRating::get_number_of_stars();
-                $percentage = round($score * $widthOutOfOneHundredForEachStar );
-                $roundedPercentage = round($stars * $widthOutOfOneHundredForEachStar);
-                $reversePercentage = round(100 - $percentage);
-                $reverseRoundedPercentage = round(100 - $roundedPercentage);
-                $starClass = PageRating::get_star_entry_code($stars);
-                $page = SiteTree::get()->byId( $record["ParentID"]);
-                $record = array(
-                    'Rating' => "Stars",
-                    'Method' => $method,
-                    'Score' => $score,
-                    'Stars' => $stars,
-                    'Percentage' => $percentage,
-                    'RoundedPercentage' => $percentage,
-                    'ReversePercentage' => $reversePercentage,
-                    'ReverseRoundedPercentage' => $reverseRoundedPercentage,
-                    'StarClass' => $starClass,
-                    'Page' => $page
-                );
-                if(isset($_GET["debug"])) {
-                    debug::show("
-                        width out of 100 for each star: ".$widthOutOfOneHundredForEachStar."<br />
-                        Method: ".$method."<br />
-                        Score: ".$score."<br />
-                        Stars: ".$stars."<br />
-                        Percentage: ".$percentage."<br />
-                        RoundedPercentage: ".$roundedPercentage."<br />
-                        ReversePercentage: ".$reversePercentage."<br />
-                        ReverseRoundedPercentage: ".$reverseRoundedPercentage."<br />
-                        StarClass: ".$starClass."<br />
-                        Page: ".$page->Title
-                    );
-                }
-                $al->push(new ArrayData($record));
+                $parentID = $record["ParentID"];
+                $record = PageRating::get_star_details_as_array_data($score, $parentID);
+                $al->push($record);
             }
         }
         return $al;
