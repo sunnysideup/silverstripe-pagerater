@@ -29,12 +29,24 @@ Installation Instructions
 -----------------------------------------------
 1. Find out how to add modules to SS and add module as per usual.
 
-2. Review configs and add entries to mysite/_config/config.yml
+2. Review configs and add entries to `mysite/_config/config.yml`
 (or similar) as necessary.
-In the _config/ folder of this module
+In the `_config/` folder of this module
 you can usually find some examples of config options (if any).
 
 3. add the following to your templates:
 
 $PageRatingForm
 
+
+# Casted variables
+
+Every Page Rating has the following casted variable:
+
+  - Method (is sometimes null, relates to the method used to calculate score)
+  - Stars
+  - Percentage
+  - RoundedPercentage
+  - ReversePercentage
+  - ReverseRoundedPercentage
+  - StarClass

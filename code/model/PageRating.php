@@ -253,7 +253,7 @@ class PageRating extends DataObject {
     function getMethod()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
-        return $arrayData["Method"];
+        return $arrayData->Method;
     }
 
     /**
@@ -271,7 +271,7 @@ class PageRating extends DataObject {
     function getStars()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
-        return $arrayData["Stars"];
+        return $arrayData->Stars;
     }
 
     /**
@@ -289,7 +289,7 @@ class PageRating extends DataObject {
     function getPercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
-        return $arrayData["Percentage"];
+        return $arrayData->Percentage;
 
     }
 
@@ -308,7 +308,7 @@ class PageRating extends DataObject {
     function getRoundedPercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
-        return $arrayData["RoundedPercentage"];
+        return $arrayData->RoundedPercentage;
     }
 
     /**
@@ -326,7 +326,7 @@ class PageRating extends DataObject {
     function getReversePercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
-        return $arrayData["ReversePercentage"];
+        return $arrayDat->ReversePercentage;
 
     }
 
@@ -345,7 +345,7 @@ class PageRating extends DataObject {
     function getReverseRoundedPercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
-        return $arrayData["ReverseRoundedPercentage"];
+        return $arrayData->ReverseRoundedPercentage;
     }
 
     /**
@@ -363,7 +363,7 @@ class PageRating extends DataObject {
     function getStarClass()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
-        return $arrayData["StarClass"];
+        return $arrayData->StarClass;
     }
 
 }
