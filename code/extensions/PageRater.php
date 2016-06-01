@@ -120,7 +120,7 @@ class PageRater extends DataExtension {
                 } else {
                     $score = $record["RatingAverage"];
                     $parentID = $record["ParentID"];
-                    $record = PageRating::get_star_details_as_array_data($score, $parent, $method);
+                    $record = PageRating::get_star_details_as_array_data($score, $parentID, $method);
                 }
                 $al->push($record);
             }
