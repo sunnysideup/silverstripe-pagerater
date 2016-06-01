@@ -115,10 +115,14 @@ class PageRater extends DataExtension {
         $al = new ArrayList();
         if($data) {
             foreach($data as $record) {
-                $score = $record["RatingAverage"];
-                $parentID = $record["ParentID"];
-                $record =
-                $al->push(new ArrayData($record));
+                if($record instanceof PageRating) {
+                    //do nothing
+                } else {
+                    $score = $record["RatingAverage"];
+                    $parentID = $record["ParentID"];
+                    $record = PageRating::get_star_details_as_array_data($score, $parent, $method);
+                }
+                $al->push($record);
             }
         }
         return $al;
