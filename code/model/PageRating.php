@@ -77,6 +77,11 @@ class PageRating extends DataObject {
 
     private static $_star_details_as_array_data = array();
 
+    /**
+     *
+     *
+     * @return ArrayData
+     */
     public static function get_star_details_as_array_data($score, $parentID, $method = "unkown")
     {
         $key = $score."_".$parentID."_".$method;

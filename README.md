@@ -41,7 +41,7 @@ $PageRatingForm
 
 # Casted variables
 
-Every Page Rating has the following casted variable:
+Every Page Rating, being an aggregate (e.g. average page rating) has the following casted variable:
 
   - Method (is sometimes null, relates to the method used to calculate score)
   - Stars
