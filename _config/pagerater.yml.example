@@ -4,16 +4,16 @@ After: 'framework/*','cms/*'
 ---
 
 PageRating:
-  stars: [
-    Code: oneStar
-    Title: One Star
-   ],
-   [
-    Code: twoStar
-    Title: Two Star
-   ],
-   etc...
-  ]
+  admin_can_create: false
+  admin_can_edit: false
+  admin_can_delete: false
+  stars:
+    1:
+      Code: oneStar
+      Title: One Star
+    2:
+      Code: twoStar
+      Title: Two Star
 
 PageRaterStarField:
   extra_form_selector: 'form#PageCommentInterface_Form_PostCommentForm'
@@ -22,13 +22,13 @@ PageRaterStarField:
   allow_name: true
 
 
-PageRater:
+PageRaterExtension:
   add_default_rating: true
   round_rating: true
   number_of_default_records_to_be_added: 1
 
 
-PageRater_Controller:
+PageRaterExtension_Controller:
   field_title: "anything you like"
   field_right_title: "anything you like"
   show_average_rating_in_rating_field: true

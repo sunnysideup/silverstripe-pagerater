@@ -7,6 +7,24 @@
 
 class PageRating extends DataObject {
 
+    /**
+     * @var bool
+     */
+    private static $admin_can_create = true;
+
+    /**
+     * @var bool
+     */
+    private static $admin_can_edit = true;
+
+    /**
+     * @var bool
+     */
+    private static $admin_can_delete = true;
+
+    /**
+     * @var array
+     */
     private static $stars = array(
         '1' => array("Code" => 'OneStar', "Title" => "One Star"),
         '2' => array("Code" => 'TwoStar', "Title" => "Two Stars"),
@@ -87,7 +105,7 @@ class PageRating extends DataObject {
         $key = $score."_".$parentID."_".$method;
         if( ! isset(self::$_star_details_as_array_data[$key]) ) {
             $stars = $score;
-            if(Config::inst()->get("PageRater", "round_rating")) {
+            if(Config::inst()->get("PageRaterExtension", "round_rating")) {
                 $stars = round($stars);
             }
             $widthOutOfOneHundredForEachStar = 100 / PageRating::get_number_of_stars();
@@ -162,9 +180,21 @@ class PageRating extends DataObject {
         $labels = $this->FieldLabels();
         $fields->replaceField("Rating", OptionSetField::create("Rating", $labels["Rating"], self::get_star_dropdowndown()));
         //$fields->removeFieldFromTab("Root.Main", "Comment");
-        $fields->removeFieldFromTab("Root.Main", "ParentID");
+
         if($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
             $fields->addFieldToTab("Root.Main", $readonlyField = ReadonlyField::create("ParentDescription", $labels["Parent"], "<p><a href=\"".$this->Parent()->CMSEditLink()."\">".$this->Parent()->Title."</a></p>"));
+            $readonlyField->dontEscape = true;
+            $fields->removeFieldFromTab("Root.Main", "ParentID");
+        }
+        else {
+            $fields->replaceField(
+                "ParentID",
+                TreeDropdownField::create(
+                    'ParentID',
+                    'Parent',
+                    'SiteTree'
+                )
+            );
         }
         if( Config::inst()->get("PageRaterStarField", "allow_name")) {
             //do nothing
@@ -184,7 +214,7 @@ class PageRating extends DataObject {
         else {
             $fields->removeFieldFromTab("Root.Main", "Comment");
         }
-        $readonlyField->dontEscape = true;
+
         $fields->makeFieldReadonly("IsDefault");
         return $fields;
     }
@@ -232,14 +262,23 @@ class PageRating extends DataObject {
     }
 
     function canCreate($member = null) {
+        if($this->Config()->get("admin_can_create")) {
+            return parent::canCreate($member);
+        }
         return false;
     }
 
     function canDelete($member = null) {
+        if($this->Config()->get("admin_can_delete")) {
+            return parent::canDelete($member);
+        }
         return false;
     }
 
     function canEdit($member = null) {
+        if($this->Config()->get("admin_can_edit")) {
+            return parent::canEdit($member);
+        }
         return false;
     }
 

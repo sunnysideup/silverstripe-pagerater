@@ -36,7 +36,29 @@ you can usually find some examples of config options (if any).
 
 3. add the following to your templates:
 
+Place to add a Rating
+---
+```html
 $PageRatingForm
+```
+
+Average Rating for Page
+---
+```html
+$PageRatingForm
+```
+
+Show rating for current user
+---
+```html
+<% include PageRaterStarsCurrentUser %>
+
+Condensed rating for current page
+---
+```html
+<% include PageRaterStarsSmall %>
+```
+
 
 
 # Casted variables

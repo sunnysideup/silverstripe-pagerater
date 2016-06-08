@@ -8,7 +8,7 @@
  *
  **/
 
-class PageRater extends DataExtension {
+class PageRaterExtension extends DataExtension {
 
     private static $db = array(
         'PageRating' => 'Double'
@@ -85,13 +85,7 @@ class PageRater extends DataExtension {
      * @return ArrayList
      */
     function PageRaterListOfAllForPage() {
-        $sqlQuery = new SQLQuery();
-        $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") AS RatingAverage, \"PageRating\".\"ParentID\"");
-        $sqlQuery->setFrom(" \"PageRating\"");
-        $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID);
-        $sqlQuery->addInnerJoin("SiteTree", " \"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
-        $sqlQuery->setOrderBy("\"Created\" DESC");
-        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRaterList");
+        return $this->turnPageRaterSQLIntoArrayList($this->owner->PageRatings(), "PageRaterListOfAllForPage");
     }
 
     function PageRaterListAll(){
@@ -105,17 +99,20 @@ class PageRater extends DataExtension {
     }
 
     /**
-     * @param SQLQuery $sqlQuery
+     * @param $data $sqlQuery | DataList
      * @param string $method
      *
      * @return ArrayList
      */
-    protected function turnPageRaterSQLIntoArrayList(SQLQuery $sqlQuery, $method = "unknown") {
-        $data = $sqlQuery->execute();
+    protected function turnPageRaterSQLIntoArrayList($data, $method = "unknown") {
+        if($data instanceof SQLQuery) {
+            $data = $data->execute();
+        }
         $al = new ArrayList();
         if($data) {
             foreach($data as $record) {
                 if($record instanceof PageRating) {
+                    $record->Method = $method;
                     //do nothing
                 } else {
                     $score = $record["RatingAverage"];
@@ -161,7 +158,7 @@ class PageRater extends DataExtension {
         parent::requireDefaultRecords();
         $step = 50;
         for($i = 0; $i < 1000000; $i = $i + $step) {
-            if(Config::inst()->get("PageRater", "add_default_rating")) {
+            if(Config::inst()->get("PageRaterExtension", "add_default_rating")) {
                 $pages = SiteTree::get()
                     ->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"")
                     ->where("\"PageRating\".\"ID\" IS NULL")
@@ -173,7 +170,7 @@ class PageRater extends DataExtension {
                         $max = PageRating::get_number_of_stars();
                         $goingBackTo = ($max / rand(1, $max)) - 1;
                         $stepsBack = $max - $goingBackTo;
-                        $ratings = Config::inst()->get("PageRater", "number_of_default_records_to_be_added") / $stepsBack;
+                        $ratings = Config::inst()->get("PageRaterExtension", "number_of_default_records_to_be_added") / $stepsBack;
                         for($i = 1; $i <= $ratings; $i++) {
                             for($j = $max; $j > $goingBackTo; $j--) {
                                 $PageRating = new PageRating();
@@ -211,7 +208,7 @@ class PageRater extends DataExtension {
 
 }
 
-class PageRater_Controller extends Extension {
+class PageRaterExtension_Controller extends Extension {
 
     private static $field_title = "Click on any star to rate:";
 
@@ -251,7 +248,7 @@ class PageRater_Controller extends Extension {
             $actions = FieldList::create();
         }
         else {
-            if(Config::inst()->get("PageRater_Controller", "show_average_rating_in_rating_field")) {
+            if(Config::inst()->get("PageRaterExtension_Controller", "show_average_rating_in_rating_field")) {
                 $defaultStart = $this->owner->getStarRating();
             }
             else {
@@ -259,11 +256,11 @@ class PageRater_Controller extends Extension {
             }
             $ratingField = PageRaterStarField::create(
                 'RatingFor'.$this->owner->dataRecord->ID,
-                Config::inst()->get("PageRater_Controller", "field_title"),
+                Config::inst()->get("PageRaterExtension_Controller", "field_title"),
                 $defaultStart,
                 PageRating::get_number_of_stars()
             );
-            $ratingField->setRightTitle(Config::inst()->get("PageRater_Controller", "field_right_title"));
+            $ratingField->setRightTitle(Config::inst()->get("PageRaterExtension_Controller", "field_right_title"));
             $actions = FieldList::create(FormAction::create('dopagerating', 'Submit'));
         }
         $fields = FieldList::create(

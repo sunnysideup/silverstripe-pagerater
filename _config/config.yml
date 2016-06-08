@@ -5,9 +5,8 @@ After: 'framework/*','cms/*'
 
 SiteTree:
   extensions:
-    - PageRater
+    - PageRaterExtension
 
 ContentController:
   extensions:
-    - PageRater_Controller
-
+    - PageRaterExtension_Controller
