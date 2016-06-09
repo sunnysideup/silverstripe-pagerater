@@ -28,10 +28,7 @@ class PageRaterExtension extends DataExtension {
      */
     private static $add_default_rating = false;
 
-    /**
-     * @var boolean
-     */
-    private static $round_rating = true;
+
 
     /**
      * @var boolean
@@ -50,109 +47,6 @@ class PageRaterExtension extends DataExtension {
         );
     }
 
-    /**
-     * rating for this page ...
-     * @return ArrayList
-     */
-    function PageRatingResults() {
-        $sqlQuery = new SQLQuery();
-        $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
-        $sqlQuery->setFrom("\"PageRating\" ");
-        $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
-        $sqlQuery->setOrderBy("RatingAverage DESC");
-        $sqlQuery->setGroupby("\"ParentID\"");
-        $sqlQuery->setLimit(1);
-        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRatingResults");
-    }
-
-    /**
-     * rating of this page by this user ...
-     * @return ArrayList
-     */
-    function CurrentUserRating() {
-        $sqlQuery = new SQLQuery();
-        $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
-        $sqlQuery->setFrom("\"PageRating\" ");
-        $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"PageRating\".\"ID\" = '".Session::get('PageRated'.$this->owner->ID)."'");
-        $sqlQuery->setOrderBy("RatingAverage DESC");
-        $sqlQuery->setGroupby("\"ParentID\"");
-        $sqlQuery->setLimit(1);
-        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "CurrentUserRating");
-    }
-
-    /**
-     * list of all rated pages ...
-     * @return ArrayList
-     */
-    function PageRaterListOfAllForPage() {
-        return $this->turnPageRaterSQLIntoArrayList($this->owner->PageRatings(), "PageRaterListOfAllForPage");
-    }
-
-    function PageRaterListAll(){
-        $sqlQuery = new SQLQuery();
-        $sqlQuery->setSelect("\"PageRating\".\"Rating\" AS RatingAverage, \"PageRating\".\"ParentID\"");
-        $sqlQuery->setFrom(" \"PageRating\"");
-        $sqlQuery->addInnerJoin("SiteTree", " \"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
-        $sqlQuery->setOrderBy("RatingAverage DESC");
-        $sqlQuery->setGroupby("\"ParentID\"");
-        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRaterList");
-    }
-
-    /**
-     * @param $data $sqlQuery | DataList
-     * @param string $method
-     *
-     * @return ArrayList
-     */
-    protected function turnPageRaterSQLIntoArrayList($data, $method = "unknown") {
-        if($data instanceof SQLQuery) {
-            $data = $data->execute();
-        }
-        $al = new ArrayList();
-        if($data) {
-            foreach($data as $record) {
-                if($record instanceof PageRating) {
-                    $record->Method = $method;
-                    //do nothing
-                } else {
-                    $score = $record["RatingAverage"];
-                    $parentID = $record["ParentID"];
-                    $record = PageRating::get_star_details_as_array_data($score, $parentID, $method);
-                }
-                $al->push($record);
-            }
-        }
-        return $al;
-    }
-
-    /**
-     * @return boolean
-     */
-    function PageHasBeenRatedByUser() {
-        return Session::get('PageRated'.$this->owner->ID) ? true : false;
-    }
-
-    /**
-     *
-     * @return int
-     */
-    function NumberOfPageRatings() {
-        $doSet = new ArrayList();
-        $sqlQuery = new SQLQuery();
-        $sqlQuery->setSelect("COUNT(\"PageRating\".\"Rating\") RatingCount");
-        $sqlQuery->setFrom("\"PageRating\" ");
-        $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
-        $sqlQuery->setOrderBy("RatingCount ASC");
-        $sqlQuery->setGroupBy("\"ParentID\"");
-        $sqlQuery->setLimit(1);
-        $data = $sqlQuery->execute();
-        if($data) {
-            foreach($data as $record) {
-                return $record["RatingCount"];
-            }
-        }
-        return 0;
-    }
 
     function requireDefaultRecords() {
         parent::requireDefaultRecords();
@@ -191,30 +85,31 @@ class PageRaterExtension extends DataExtension {
         }
     }
 
-    /**
-     * return the average rating...
-     * @return Double
-     */
-     function getStarRating() {
-        $ratings = $this->owner->PageRatingResults();
-        $rating = 0;
-        if($ratings->Count() == 1) {
-            foreach($ratings as $ratingItem) {
-                $rating = $ratingItem->Stars;
-            }
-        }
-        return $rating;
-    }
 
 }
 
 class PageRaterExtension_Controller extends Extension {
 
+
+    /**
+     * @var string
+     */
     private static $field_title = "Click on any star to rate:";
 
+    /**
+     * @var string
+     */
     private static $field_right_title = "On a scale from 1 to 5, with 5 being the best";
 
+    /**
+     * @var boolean
+     */
     private static $show_average_rating_in_rating_field = false;
+
+    /**
+     * @var boolean
+     */
+    private static $only_show_approved = false;
 
     private static $allowed_actions = array(
         "PageRatingForm",
@@ -323,5 +218,149 @@ class PageRaterExtension_Controller extends Extension {
         }
     }
 
+
+
+
+
+    /**
+     * rating for this page ...
+     * @return ArrayList
+     */
+    function PageRatingResults() {
+        $sqlQuery = new SQLQuery();
+        $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+        $sqlQuery->setFrom("\"PageRating\" ");
+        if($this->onlyShowApprovedPageRatings()) {
+            $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"PageRating\".\"IsApproved\" = 1");
+        } else {
+            $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
+        }
+        $sqlQuery->setOrderBy("RatingAverage DESC");
+        $sqlQuery->setGroupby("\"ParentID\"");
+        $sqlQuery->setLimit(1);
+        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRatingResults");
+    }
+
+    /**
+     * rating of this page by this user ...
+     * @return ArrayList
+     */
+    function CurrentUserRating() {
+        $sqlQuery = new SQLQuery();
+        $sqlQuery->setSelect("AVG(\"PageRating\".\"Rating\") RatingAverage, ParentID");
+        $sqlQuery->setFrom("\"PageRating\" ");
+        if($this->onlyShowApprovedPageRatings()) {
+            $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"PageRating\".\"ID\" = '".Session::get('PageRated'.$this->owner->ID)."' AND \"PageRating\".\"IsApproved\" = 1");
+        } else {
+            $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"PageRating\".\"ID\" = '".Session::get('PageRated'.$this->owner->ID)."'");
+        }
+
+        $sqlQuery->setOrderBy("RatingAverage DESC");
+        $sqlQuery->setGroupby("\"ParentID\"");
+        $sqlQuery->setLimit(1);
+        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "CurrentUserRating");
+    }
+
+    /**
+     * list of all rated pages ...
+     * @return ArrayList
+     */
+    function PageRaterListOfAllForPage() {
+        return $this->turnPageRaterSQLIntoArrayList($this->owner->PageRatings(), "PageRaterListOfAllForPage");
+    }
+
+    function PageRaterListAll(){
+        $sqlQuery = new SQLQuery();
+        $sqlQuery->setSelect("\"PageRating\".\"Rating\" AS RatingAverage, \"PageRating\".\"ParentID\"");
+        if($this->onlyShowApprovedPageRatings()) {
+            $sqlQuery->setWhere("\"PageRating\".\"IsApproved\" = 1");
+        }
+        $sqlQuery->setFrom(" \"PageRating\"");
+        $sqlQuery->addInnerJoin("SiteTree", " \"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
+        $sqlQuery->setOrderBy("RatingAverage DESC");
+        $sqlQuery->setGroupby("\"SiteTree\".\"ParentID\"");
+        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRaterList");
+    }
+
+    /**
+     * @param $data $sqlQuery | DataList
+     * @param string $method
+     *
+     * @return ArrayList
+     */
+    protected function turnPageRaterSQLIntoArrayList($data, $method = "unknown") {
+        if($data instanceof SQLQuery) {
+            $data = $data->execute();
+        }
+        $al = new ArrayList();
+        if($data) {
+            foreach($data as $record) {
+                if($record instanceof PageRating) {
+                    $record->Method = $method;
+                    //do nothing
+                } else {
+                    $score = $record["RatingAverage"];
+                    $parentID = $record["ParentID"];
+                    $record = PageRating::get_star_details_as_array_data($score, $parentID, $method);
+                }
+                $al->push($record);
+            }
+        }
+        return $al;
+    }
+
+    /**
+     * @return boolean
+     */
+    function PageHasBeenRatedByUser() {
+        return Session::get('PageRated'.$this->owner->ID) ? true : false;
+    }
+
+    /**
+     *
+     * @return int
+     */
+    function NumberOfPageRatings() {
+        $doSet = new ArrayList();
+        $sqlQuery = new SQLQuery();
+        $sqlQuery->setSelect("COUNT(\"PageRating\".\"Rating\") RatingCount");
+        $sqlQuery->setFrom("\"PageRating\" ");
+        if($this->onlyShowApprovedPageRatings()) {
+            $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID." AND \"PageRating\".\"IsApproved\" = 1");
+        } else {
+            $sqlQuery->setWhere("\"ParentID\" = ".$this->owner->ID."");
+        }
+        $sqlQuery->setOrderBy("RatingCount ASC");
+        $sqlQuery->setGroupBy("\"ParentID\"");
+        $sqlQuery->setLimit(1);
+        $data = $sqlQuery->execute();
+        if($data) {
+            foreach($data as $record) {
+                return $record["RatingCount"];
+            }
+        }
+        return 0;
+    }
+
+    protected function onlyShowApprovedPageRatings()
+    {
+        return Config::inst()->get("PageRaterExtension_Controller", "only_show_approved");
+    }
+
+
+    /**
+     * return the average rating...
+     * @return Double
+     */
+     function getStarRating() {
+        $ratings = $this->owner->PageRatingResults();
+        $rating = 0;
+        if($ratings->Count() == 1) {
+            foreach($ratings as $ratingItem) {
+                $rating = $ratingItem->Stars;
+            }
+        }
+        return $rating;
+    }
 
 }

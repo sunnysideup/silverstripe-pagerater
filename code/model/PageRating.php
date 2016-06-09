@@ -23,6 +23,11 @@ class PageRating extends DataObject {
     private static $admin_can_delete = true;
 
     /**
+     * @var boolean
+     */
+    private static $round_rating = true;
+
+    /**
      * @var array
      */
     private static $stars = array(
@@ -105,7 +110,7 @@ class PageRating extends DataObject {
         $key = $score."_".$parentID."_".$method;
         if( ! isset(self::$_star_details_as_array_data[$key]) ) {
             $stars = $score;
-            if(Config::inst()->get("PageRaterExtension", "round_rating")) {
+            if(Config::inst()->get("PageRating", "round_rating")) {
                 $stars = round($stars);
             }
             $widthOutOfOneHundredForEachStar = 100 / PageRating::get_number_of_stars();
@@ -138,6 +143,7 @@ class PageRating extends DataObject {
          "Name" => "Varchar(100)",
          "Title" => "Varchar(100)",
          "Comment" => "Text",
+         "IsApproved" => "Boolean",
          "IsDefault" => "Boolean"
     );
 
@@ -148,14 +154,16 @@ class PageRating extends DataObject {
     private static $summary_fields = array(
         "Rating" => "Score",
         "Parent.Title" => "Page",
-        "Comment" => "Comment"
+        "Comment" => "Comment",
+        "IsApproved.Nice" => "Approved"
     );
 
     private static $field_labels = array(
         "Rating" => "Score",
         "Parent.Title" => "Page",
         "IsDefault" => "Default Entry Only",
-        "Parent" => "Rating for"
+        "Parent" => "Rating for",
+        "IsApproved" => "Approved"
     );
 
     private static $casting = array(
