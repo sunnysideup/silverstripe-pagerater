@@ -266,7 +266,15 @@ class PageRaterExtension_Controller extends Extension {
      * @return ArrayList
      */
     function PageRaterListOfAllForPage() {
-        return $this->turnPageRaterSQLIntoArrayList($this->owner->PageRatings(), "PageRaterListOfAllForPage");
+        if($this->onlyShowApprovedPageRatings()) {
+            return $this->turnPageRaterSQLIntoArrayList(
+                $this->owner->PageRatings(), "PageRaterListOfAllForPage");
+        } else {
+            return $this->turnPageRaterSQLIntoArrayList(
+                $this->owner->PageRatings()->filter(array("IsApproved" => 0)),
+                "PageRaterListOfAllForPage"
+            );
+        }
     }
 
     function PageRaterListAll(){
