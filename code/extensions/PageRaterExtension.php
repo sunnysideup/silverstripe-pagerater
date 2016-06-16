@@ -162,6 +162,7 @@ class PageRaterExtension_Controller extends Extension {
             $ratingField,
             HiddenField::create('ParentID', "ParentID", $this->owner->dataRecord->ID)
         );
+
         return Form::create($this->owner, 'PageRatingForm', $fields, $actions);
     }
 
