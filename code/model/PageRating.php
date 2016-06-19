@@ -152,6 +152,7 @@ class PageRating extends DataObject {
     );
 
     private static $summary_fields = array(
+        "Created" => "When",
         "Rating" => "Score",
         "Parent.Title" => "Page",
         "Comment" => "Comment",
@@ -221,6 +222,35 @@ class PageRating extends DataObject {
         }
         else {
             $fields->removeFieldFromTab("Root.Main", "Comment");
+        }
+        if (class_exists('DataObjectOneFieldUpdateController')) {
+            $linkForApproval = DataObjectOneFieldUpdateController::popup_link(
+                'PageRating',
+                'IsApproved',
+                "IsApproved = 0",
+                '',
+                'Mass Approve'
+            );
+            $linkForDisapproval = DataObjectOneFieldUpdateController::popup_link(
+                'PageRating',
+                'IsApproved',
+                "IsApproved = 1",
+                '',
+                'Mass Disapprove'
+            );
+            $fields->addFieldToTab(
+                'Root.Main',
+                new LiteralField(
+                    'QuickActions',
+                    '<p class="message good">'
+                        ._t('ProductVariation.QUICK_UPDATE', 'Quick update')
+                        .': '
+                        ."<span class=\"action ss-ui-button\">$linkForApproval</span> "
+                        ."<span class=\"action ss-ui-button\">$linkForDisapproval</span>"
+                        .'</p>'
+                ),
+                'IsDefault'
+            );
         }
 
         $fields->makeFieldReadonly("IsDefault");

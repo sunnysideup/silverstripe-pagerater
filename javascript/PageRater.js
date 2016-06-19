@@ -27,7 +27,7 @@ var PageRater = {
 
     formSelector: "#Form_PageRatingForm",
 
-    submitButtonSelector: "#Form_PageRatingForm .Actions input",
+    submitButtonSelector: ".Actions input",
 
     loadingMessage: "saving ...",
 
@@ -36,24 +36,6 @@ var PageRater = {
     starSelectedIdentifier: ".star-rating-on",
 
     reminderMessage: "Please make sure that you select a rating from one to five stars",
-
-    formOptions : {
-        target: "#Form_PageRatingForm",
-        beforeSubmit: function (formData, jqForm, options) {
-            if(!jQuery(PageRater.starSelectedIdentifier).length) {
-                alert(PageRater.reminderMessage);
-                return false;
-            }
-            jQuery(PageRater.formSelector).text(PageRater.loadingMessage).addClass(PageRater.loadingClass);
-            jQuery(PageRater.extraFormSelector).addClass(PageRater.loadingClass);
-            return true;
-        },
-        success: function (responseText, statusText) {
-            jQuery(this.target).html(responseText);
-            jQuery(PageRater.formSelector).removeClass(PageRater.loadingClass);
-            jQuery(PageRater.extraFormSelector).unbind("submit").submit();
-        }
-    },
 
     extraFormSelector: "",
     set_extra_form_selector: function(v) { this.extraFormSelector = v;},
@@ -67,25 +49,32 @@ var PageRater = {
 
                 //retrieve id and fields
                 var obj = PageRaterVariables[i];
+                PageRater.formSelector = '#' + jQuery('input.'+obj.id).closest("form").attr("id");
+                jQuery(PageRater.formSelector+ ' ' + PageRater.submitButtonSelector).hide();
                 var fields = obj.fields;
                 //call back on rating taking place ....
                 jQuery('input.'+obj.id).rating({
                     required: true,
                     callback: function(value, link) {
+                        jQuery(PageRater.formSelector).addClass('addingDetails');
                         jQuery('#'+obj.id).val(value);
                         for(var j = 0; j < fields.length; j++) {
-                            jQuery('#'+fields[j]).fadeIn();
+                            jQuery('#'+fields[j]).attr('required', 'required').fadeIn();
                         }
+                        jQuery(PageRater.formSelector+ ' ' + PageRater.submitButtonSelector).fadeIn();
                     }
                 });
+                jQuery(PageRater.formSelector+ ' ' + PageRater.submitButtonSelector).click(
+                    function() {
+                        jQuery(PageRater.formSelector).ajaxSubmit(
+                            PageRater.getFormOptions()
+                        );
+                        return false;
+                    }
+                )
+
             }
         }
-        jQuery(PageRater.submitButtonSelector).click(
-            function() {
-                jQuery(PageRater.formSelector).ajaxSubmit(PageRater.formOptions);
-                return false;
-            }
-        )
     },
 
     extraFormInit: function() {
@@ -102,6 +91,26 @@ var PageRater = {
                 );
             };
         }
+    },
+
+    getFormOptions: function() {
+        return {
+            target: PageRater.formSelector,
+            beforeSubmit: function (formData, jqForm, options) {
+                if(!jQuery(PageRater.starSelectedIdentifier).length) {
+                    alert(PageRater.reminderMessage);
+                    return false;
+                }
+                jQuery(PageRater.formSelector).text(PageRater.loadingMessage).addClass(PageRater.loadingClass);
+                jQuery(PageRater.extraFormSelector).addClass(PageRater.loadingClass);
+                return true;
+            },
+            success: function (responseText, statusText) {
+                jQuery(this.target).html(responseText);
+                jQuery(PageRater.formSelector).removeClass(PageRater.loadingClass);
+                jQuery(PageRater.extraFormSelector).unbind("submit").submit();
+            }
+        };
     }
 
 }

@@ -141,6 +141,7 @@ class PageRaterExtension_Controller extends Extension {
         if($this->owner->PageHasBeenRatedByUser()) {
             $ratingField = LiteralField::create("RatingFor".$this->owner->dataRecord->ID, $this->owner->renderWith("PageRaterAjaxReturn"));
             $actions = FieldList::create();
+            $requiredFields = null;
         }
         else {
             if(Config::inst()->get("PageRaterExtension_Controller", "show_average_rating_in_rating_field")) {
@@ -156,6 +157,7 @@ class PageRaterExtension_Controller extends Extension {
                 PageRating::get_number_of_stars()
             );
             $ratingField->setRightTitle(Config::inst()->get("PageRaterExtension_Controller", "field_right_title"));
+            $requiredFields = RequiredFields::create($ratingField->getRequiredFields());
             $actions = FieldList::create(FormAction::create('dopagerating', 'Submit'));
         }
         $fields = FieldList::create(
@@ -163,7 +165,7 @@ class PageRaterExtension_Controller extends Extension {
             HiddenField::create('ParentID', "ParentID", $this->owner->dataRecord->ID)
         );
 
-        return Form::create($this->owner, 'PageRatingForm', $fields, $actions);
+        return Form::create($this->owner, 'PageRatingForm', $fields, $actions, $requiredFields);
     }
 
     /**
@@ -171,7 +173,7 @@ class PageRaterExtension_Controller extends Extension {
      */
     function dopagerating($data, $form) {
         $id = $this->owner->dataRecord->ID;
-        $fieldName = "Form_PageRatingForm_RatingFor".$id;
+        $fieldName = "RatingFor".$id;
         $data = Convert::raw2sql($data);
         $pageRating = PageRating::create();
         $form->saveInto($pageRating);
