@@ -2,7 +2,7 @@
 
 /**
  *@author nicolaas [at] sunnysideup up .co .nz
- * <% looo $PageRatings %>
+ * <% loop $PageRatings %>
  *
  * <% end_loop %>
  *
@@ -10,16 +10,8 @@
 
 class PageRaterExtension extends DataExtension {
 
-    private static $db = array(
-        'PageRating' => 'Double'
-    );
-
     private static $has_many = array(
         'PageRatings' => 'PageRating'
-    );
-
-    private static $indexes = array(
-        'PageRating' => true
     );
 
     /**
@@ -28,23 +20,23 @@ class PageRaterExtension extends DataExtension {
      */
     private static $add_default_rating = false;
 
-
-
     /**
      * @var boolean
      */
     private static $number_of_default_records_to_be_added = 5;
 
     function updateCMSFields(FieldList $fields) {
-        $fields->addFieldToTab(
-            "Root.Ratings",
-            GridField::create(
-                "PageRatings",
-                Injector::inst()->get("PageRating")->plural_name(),
-                $this->owner->PageRatings(),
-                GridFieldConfig_RecordViewer::create()
-            )
-        );
+        if($this->owner->PageRatings() && $this->owner->PageRatings()->count()) {
+            $fields->addFieldToTab(
+                "Root.Ratings",
+                GridField::create(
+                    "PageRatings",
+                    Injector::inst()->get("PageRating")->plural_name(),
+                    $this->owner->PageRatings(),
+                    GridFieldConfig_RecordViewer::create()
+                )
+            );
+        }
     }
 
 
@@ -271,10 +263,12 @@ class PageRaterExtension_Controller extends Extension {
     function PageRaterListOfAllForPage() {
         if($this->onlyShowApprovedPageRatings()) {
             return $this->turnPageRaterSQLIntoArrayList(
-                $this->owner->PageRatings()->filter(array("IsApproved" => 1)), "PageRaterListOfAllForPage");
+                $this->owner->PageRatings()->filter(array("IsApproved" => 1)),
+                "PageRaterListOfAllForPage"
+            );
         } else {
             return $this->turnPageRaterSQLIntoArrayList(
-                $this->owner->PageRatings()->filter(array("IsApproved" => 0)),
+                $this->owner->PageRatings(),
                 "PageRaterListOfAllForPage"
             );
         }
