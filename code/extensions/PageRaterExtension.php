@@ -274,6 +274,7 @@ class PageRaterExtension_Controller extends Extension {
         }
         if($paginated) {
             $list = PaginatedList::create($list, $this->owner->getRequest());
+            $list->setPageLength(8);
         }
         return $list;
     }
