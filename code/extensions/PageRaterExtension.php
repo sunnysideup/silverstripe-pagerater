@@ -260,19 +260,24 @@ class PageRaterExtension_Controller extends Extension {
      * list of all rated pages ...
      * @return ArrayList
      */
-    function PageRaterListOfAllForPage() {
+    function PageRaterListOfAllForPage($paginated = false) {
         if($this->onlyShowApprovedPageRatings()) {
-            return $this->turnPageRaterSQLIntoArrayList(
+            $list = $this->turnPageRaterSQLIntoArrayList(
                 $this->owner->PageRatings()->filter(array("IsApproved" => 1)),
                 "PageRaterListOfAllForPage"
             );
         } else {
-            return $this->turnPageRaterSQLIntoArrayList(
+            $list = $this->turnPageRaterSQLIntoArrayList(
                 $this->owner->PageRatings(),
                 "PageRaterListOfAllForPage"
             );
         }
+        if($paginated) {
+            $list = PaginatedList::create($list, $this->owner->getRequest());
+        }
+        return $list;
     }
+
 
     function PageRaterListAll(){
         $sqlQuery = new SQLQuery();
