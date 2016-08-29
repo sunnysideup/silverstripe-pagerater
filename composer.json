@@ -2,18 +2,21 @@
     "name": "sunnysideup/pagerater",
     "type": "silverstripe-module",
     "description": "allows users to rate pages. Module for Silverstripe",
-    "homepage": "http://www.silverstripe-webdevelopment.com",
-    "keywords": ["pagerater", "silverstripe", "rate", "stars"],
+    "keywords": [
+        "pagerater",
+        "silverstripe",
+        "rate",
+        "stars"
+    ],
     "license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
-    "authors":[
+    "authors": [
         {
             "name": "Nicolaas Francken",
-            "homepage": "https://github.com/sunnysideup",
-            "email" : "modules@sunnysideup.co.nz",
-            "role" : "lead developer"
+            "email": "modules@sunnysideup.co.nz",
+            "role": "lead developer"
         }
     ],
-    "require":{
+    "require": {
         "silverstripe/framework": "~3.3",
         "silverstripe/cms": "~3.3"
     },
