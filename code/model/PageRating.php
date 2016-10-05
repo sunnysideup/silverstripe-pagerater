@@ -239,7 +239,7 @@ class PageRating extends DataObject {
                 'Mass Disapprove'
             );
             $fields->addFieldToTab(
-                'Root.Main',
+                'Root.Batch',
                 new LiteralField(
                     'QuickActions',
                     '<p class="message good">'
