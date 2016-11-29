@@ -5,5 +5,3 @@
  **/
 
 define('SS_PAGERATER_DIR', 'pagerater');
-
-

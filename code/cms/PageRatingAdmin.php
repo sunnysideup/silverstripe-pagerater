@@ -5,14 +5,13 @@
  *
  *
  **/
-class PageRatingAdmin extends ModelAdmin {
+class PageRatingAdmin extends ModelAdmin
+{
+    private static $managed_models = array(
+        'PageRating'
+    );
 
-	private static $managed_models = array(
-		'PageRating'
-	);
+    private static $url_segment = 'page-rating';
 
-	private static $url_segment = 'page-rating';
-
-	private static $menu_title = 'Ratings';
-
+    private static $menu_title = 'Ratings';
 }

@@ -5,7 +5,8 @@
  *
  **/
 
-class PageRating extends DataObject {
+class PageRating extends DataObject
+{
 
     /**
      * @var bool
@@ -42,7 +43,8 @@ class PageRating extends DataObject {
      *
      * @return array
      */
-    protected static function get_stars(){
+    protected static function get_stars()
+    {
         return Config::inst()->get("PageRating", "stars");
     }
 
@@ -52,9 +54,10 @@ class PageRating extends DataObject {
      *
      * @return string
      */
-    public static function get_star_entry_code($value) {
+    public static function get_star_entry_code($value)
+    {
         $stars = self::get_stars();
-        if(isset($stars[$value]["Code"])) {
+        if (isset($stars[$value]["Code"])) {
             return $stars[$value]["Code"];
         }
         return "N/A";
@@ -66,9 +69,10 @@ class PageRating extends DataObject {
      *
      * @return string
      */
-    public static function get_star_entry_name($value) {
+    public static function get_star_entry_name($value)
+    {
         $stars = self::get_stars();
-        if(isset($stars[$value]["Title"])) {
+        if (isset($stars[$value]["Title"])) {
             return $stars[$value]["Title"];
         }
         return "N/A";
@@ -82,11 +86,12 @@ class PageRating extends DataObject {
      *
      * @return array
      */
-    public static function get_star_dropdowndown() {
+    public static function get_star_dropdowndown()
+    {
         $stars = self::get_stars();
         $newArray = array();
-        if(count($stars)) {
-            foreach($stars as $key => $star) {
+        if (count($stars)) {
+            foreach ($stars as $key => $star) {
                 $newArray[$key] = $star["Title"];
             }
         }
@@ -96,7 +101,10 @@ class PageRating extends DataObject {
     /**
      * return int
      */
-    public static function get_number_of_stars() {return count(self::get_stars());}
+    public static function get_number_of_stars()
+    {
+        return count(self::get_stars());
+    }
 
     private static $_star_details_as_array_data = array();
 
@@ -108,13 +116,13 @@ class PageRating extends DataObject {
     public static function get_star_details_as_array_data($score, $parentID, $method = "unkown")
     {
         $key = $score."_".$parentID."_".$method;
-        if( ! isset(self::$_star_details_as_array_data[$key]) ) {
+        if (! isset(self::$_star_details_as_array_data[$key])) {
             $stars = $score;
-            if(Config::inst()->get("PageRating", "round_rating")) {
+            if (Config::inst()->get("PageRating", "round_rating")) {
                 $stars = round($stars);
             }
             $widthOutOfOneHundredForEachStar = 100 / PageRating::get_number_of_stars();
-            $percentage = round($score * $widthOutOfOneHundredForEachStar );
+            $percentage = round($score * $widthOutOfOneHundredForEachStar);
             $roundedPercentage = round($stars * $widthOutOfOneHundredForEachStar);
             $reversePercentage = round(100 - $percentage);
             $reverseRoundedPercentage = round(100 - $roundedPercentage);
@@ -184,18 +192,18 @@ class PageRating extends DataObject {
     private static $plural_name = 'Page Ratings';
 
 
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
         $fields = parent::getCMSFields();
         $labels = $this->FieldLabels();
         $fields->replaceField("Rating", OptionSetField::create("Rating", $labels["Rating"], self::get_star_dropdowndown()));
         //$fields->removeFieldFromTab("Root.Main", "Comment");
 
-        if($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
+        if ($this->ParentID && $this->Parent() && $this->Parent()->exists()) {
             $fields->addFieldToTab("Root.Main", $readonlyField = ReadonlyField::create("ParentDescription", $labels["Parent"], "<p><a href=\"".$this->Parent()->CMSEditLink()."\">".$this->Parent()->Title."</a></p>"));
             $readonlyField->dontEscape = true;
             $fields->removeFieldFromTab("Root.Main", "ParentID");
-        }
-        else {
+        } else {
             $fields->replaceField(
                 "ParentID",
                 TreeDropdownField::create(
@@ -205,22 +213,19 @@ class PageRating extends DataObject {
                 )
             );
         }
-        if( Config::inst()->get("PageRaterStarField", "allow_name")) {
+        if (Config::inst()->get("PageRaterStarField", "allow_name")) {
             //do nothing
-        }
-        else {
+        } else {
             $fields->removeFieldFromTab("Root.Main", "Name");
         }
-        if( Config::inst()->get("PageRaterStarField", "allow_title")) {
+        if (Config::inst()->get("PageRaterStarField", "allow_title")) {
             //do nothing
-        }
-        else {
+        } else {
             $fields->removeFieldFromTab("Root.Main", "Title");
         }
-        if( Config::inst()->get("PageRaterStarField", "allow_comments")) {
+        if (Config::inst()->get("PageRaterStarField", "allow_comments")) {
             //do nothing
-        }
-        else {
+        } else {
             $fields->removeFieldFromTab("Root.Main", "Comment");
         }
         if (class_exists('DataObjectOneFieldUpdateController')) {
@@ -257,11 +262,11 @@ class PageRating extends DataObject {
         return $fields;
     }
 
-    public static function update_ratings($siteTreeID = 0) {
-        if($siteTreeID) {
+    public static function update_ratings($siteTreeID = 0)
+    {
+        if ($siteTreeID) {
             $where = "PageRating.ParentID = ".$siteTreeID;
-        }
-        else {
+        } else {
             $where = "PageRating.ParentID > 0";
         }
         DB::query("DELETE FROM PageRating_TEMP;");
@@ -283,14 +288,16 @@ class PageRating extends DataObject {
             SET SiteTree_Live.PageRating = (PageRating_TEMP.Rating / 100);");
     }
 
-    function onBeforeWrite() {
+    public function onBeforeWrite()
+    {
         parent::onBeforeWrite();
-        if($this->ParentID) {
+        if ($this->ParentID) {
             self::update_ratings($this->ParentID);
         }
     }
 
-    function requireDefaultRecords() {
+    public function requireDefaultRecords()
+    {
         parent::requireDefaultRecords();
         DB::query("DROP TABLE IF EXISTS PageRating_TEMP;");
         DB::query("CREATE TABLE PageRating_TEMP (ParentID INTEGER(11), Rating INTEGER);");
@@ -299,22 +306,25 @@ class PageRating extends DataObject {
         DB::alteration_message("create PageRating_TEMP", "created");
     }
 
-    function canCreate($member = null) {
-        if($this->Config()->get("admin_can_create")) {
+    public function canCreate($member = null)
+    {
+        if ($this->Config()->get("admin_can_create")) {
             return parent::canCreate($member);
         }
         return false;
     }
 
-    function canDelete($member = null) {
-        if($this->Config()->get("admin_can_delete")) {
+    public function canDelete($member = null)
+    {
+        if ($this->Config()->get("admin_can_delete")) {
             return parent::canDelete($member);
         }
         return false;
     }
 
-    function canEdit($member = null) {
-        if($this->Config()->get("admin_can_edit")) {
+    public function canEdit($member = null)
+    {
+        if ($this->Config()->get("admin_can_edit")) {
             return parent::canEdit($member);
         }
         return false;
@@ -325,14 +335,17 @@ class PageRating extends DataObject {
      *
      * @return string
      */
-    function Method() {return $this->getMethod();}
+    public function Method()
+    {
+        return $this->getMethod();
+    }
 
     /**
      * casted variable
      *
      * @return string
      */
-    function getMethod()
+    public function getMethod()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
         return $arrayData->Method;
@@ -343,14 +356,17 @@ class PageRating extends DataObject {
      *
      * @return int | float
      */
-    function Stars() {return $this->getStars();}
+    public function Stars()
+    {
+        return $this->getStars();
+    }
 
     /**
      * casted variable
      *
      * @return int | float
      */
-    function getStars()
+    public function getStars()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
         return $arrayData->Stars;
@@ -361,18 +377,20 @@ class PageRating extends DataObject {
      *
      * @return string
      */
-    function Percentage() {return $this->getPercentage();}
+    public function Percentage()
+    {
+        return $this->getPercentage();
+    }
 
     /**
      * casted variable
      *
      * @return float
      */
-    function getPercentage()
+    public function getPercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
         return $arrayData->Percentage;
-
     }
 
     /**
@@ -380,14 +398,17 @@ class PageRating extends DataObject {
      *
      * @return int
      */
-    function RoundedPercentage() {return $this->getRoundedPercentage();}
+    public function RoundedPercentage()
+    {
+        return $this->getRoundedPercentage();
+    }
 
     /**
      * casted variable
      *
      * @return int
      */
-    function getRoundedPercentage()
+    public function getRoundedPercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
         return $arrayData->RoundedPercentage;
@@ -398,18 +419,20 @@ class PageRating extends DataObject {
      *
      * @return string
      */
-    function ReversePercentage() {return $this->getReversePercentage();}
+    public function ReversePercentage()
+    {
+        return $this->getReversePercentage();
+    }
 
     /**
      * casted variable
      *
      * @return float
      */
-    function getReversePercentage()
+    public function getReversePercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
         return $arrayDat->ReversePercentage;
-
     }
 
     /**
@@ -417,14 +440,17 @@ class PageRating extends DataObject {
      *
      * @return int
      */
-    function ReverseRoundedPercentage() {return $this->getReverseRoundedPercentage();}
+    public function ReverseRoundedPercentage()
+    {
+        return $this->getReverseRoundedPercentage();
+    }
 
     /**
      * casted variable
      *
      * @return int
      */
-    function getReverseRoundedPercentage()
+    public function getReverseRoundedPercentage()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
         return $arrayData->ReverseRoundedPercentage;
@@ -435,17 +461,19 @@ class PageRating extends DataObject {
      *
      * @return string
      */
-    function StarClass() {return $this->getStarClass();}
+    public function StarClass()
+    {
+        return $this->getStarClass();
+    }
 
     /**
      * casted variable
      *
      * @return string
      */
-    function getStarClass()
+    public function getStarClass()
     {
         $arrayData = self::get_star_details_as_array_data($this->Rating, $this->ParentID);
         return $arrayData->StarClass;
     }
-
 }

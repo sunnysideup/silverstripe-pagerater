@@ -1,7 +1,7 @@
 <?php
 
-class PageRaterStarField extends FormField {
-
+class PageRaterStarField extends FormField
+{
     private static $extra_form_selector = '';
 
     private static $allow_comments = false;
@@ -19,12 +19,11 @@ class PageRaterStarField extends FormField {
     /**
      * Returns an input field, class="start field" and type="hidden" with an optional maxlength
      */
-    function __construct($name, $title = null, $value = "", $starOptions = null, $form = null) {
-
-        if($starOptions) {
+    public function __construct($name, $title = null, $value = "", $starOptions = null, $form = null)
+    {
+        if ($starOptions) {
             $this->starOptions = $starOptions;
-        }
-        else {
+        } else {
             $this->starOptions = PageRating::get_number_of_stars();
         }
 
@@ -33,14 +32,14 @@ class PageRaterStarField extends FormField {
 
     protected $_field_value = null;
 
-    function Field($properties = array()) {
-        if( ! $this->_field_value) {
-
+    public function Field($properties = array())
+    {
+        if (! $this->_field_value) {
             Requirements::javascript(THIRDPARTY_DIR .'/jquery/jquery.js');
             Requirements::javascript(THIRDPARTY_DIR .'/jquery-form/jquery.form.js');
             Requirements::javascript('pagerater/javascript/jquery.rating.pack.js');
             Requirements::javascript('pagerater/javascript/PageRater.js');
-            if($this->Config()->get("extra_form_selector")) {
+            if ($this->Config()->get("extra_form_selector")) {
                 Requirements::customScript("PageRater.set_extra_form_selector('".$this->Config()->get("extra_form_selector")."');");
             }
             Requirements::themedCSS('jquery.rating', "pagerater");
@@ -48,17 +47,16 @@ class PageRaterStarField extends FormField {
 
             $name = $this->getName();
             $id = $this->id();
-            for($i = 1; $i < $this->starOptions + 1; $i++) {
-                if($i == $this->Value()) {
+            for ($i = 1; $i < $this->starOptions + 1; $i++) {
+                if ($i == $this->Value()) {
                     $html .= "<input name='$id' class='$id' type='radio' checked='checked' value='$i' />";
-                }
-                else{
+                } else {
                     $html .= "<input name='$id' class='$id' type='radio' value='$i' />";
                 }
             }
             $html .= "<input name='$name' type='hidden' id='$id' />";
 
-            if($this->Config()->get("allow_name")) {
+            if ($this->Config()->get("allow_name")) {
                 $fieldID = $id."_Name";
                 $nameField = TextField::create($fieldID, _t("PageRaterStarField.NAME_LABEL", "Your Name"));
                 $nameField->addExtraClass("additionalComments");
@@ -66,7 +64,7 @@ class PageRaterStarField extends FormField {
                 $this->moreFieldsArray[] = $fieldID;
             }
 
-            if($this->Config()->get("allow_title")) {
+            if ($this->Config()->get("allow_title")) {
                 $fieldID = $id."_Title";
                 $titleField = TextField::create($fieldID, _t("PageRaterStarField.TITLE_LABEL", "Comment Header"));
                 $titleField->addExtraClass("additionalComments");
@@ -74,7 +72,7 @@ class PageRaterStarField extends FormField {
                 $this->moreFieldsArray[] = $fieldID;
             }
 
-            if($this->Config()->get("allow_comments")) {
+            if ($this->Config()->get("allow_comments")) {
                 $fieldID = $id."_Comment";
                 $commentField = TextareaField::create($fieldID, _t("PageRaterStarField.COMMENTS_LABEL", "Any comments you may have"));
                 $commentField->addExtraClass("additionalComments");
@@ -98,9 +96,9 @@ class PageRaterStarField extends FormField {
         return $this->_field_value;
     }
 
-    function getRequiredFields(){
+    public function getRequiredFields()
+    {
         $this->Field();
         return $this->moreFieldsArray;
     }
-
 }

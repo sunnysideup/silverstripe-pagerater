@@ -3,8 +3,10 @@
     "type": "silverstripe-module",
     "description": "allows users to rate pages. Module for Silverstripe",
     "keywords": [
+        "Silverstripe-CMS",
+        "CMS",
+        "Silverstripe",
         "pagerater",
-        "silverstripe",
         "rate",
         "stars"
     ],
@@ -17,8 +19,8 @@
         }
     ],
     "require": {
-        "silverstripe/framework": "~3.3",
-        "silverstripe/cms": "~3.3"
+        "silverstripe/framework": "~3.1",
+        "silverstripe/cms": "~3.1"
     },
     "extra": {
         "installer-name": "pagerater"
