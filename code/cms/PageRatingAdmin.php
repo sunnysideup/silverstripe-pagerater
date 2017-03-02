@@ -14,4 +14,6 @@ class PageRatingAdmin extends ModelAdmin
     private static $url_segment = 'page-rating';
 
     private static $menu_title = 'Ratings';
+
+    private static $menu_icon = 'pagerater/images/treeicons/PageRatingAdmin.png';
 }
