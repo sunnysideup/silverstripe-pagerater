@@ -45,8 +45,8 @@ class PageRaterExtension extends DataExtension
     {
         parent::requireDefaultRecords();
         $step = 50;
-        for ($i = 0; $i < 1000000; $i = $i + $step) {
-            if (Config::inst()->get("PageRaterExtension", "add_default_rating")) {
+        if (Config::inst()->get("PageRaterExtension", "add_default_rating")) {
+            for ($i = 0; $i < 1000000; $i = $i + $step) {
                 $pages = SiteTree::get()
                     ->leftJoin("PageRating", "\"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"")
                     ->where("\"PageRating\".\"ID\" IS NULL")
@@ -72,7 +72,7 @@ class PageRaterExtension extends DataExtension
                         DB::alteration_message("Created Initial Ratings for Page with title ".$page->Title.". Ratings created: $count", "created");
                     }
                 } else {
-                    $i = 9999999;
+                    $i = 1000000;
                 }
             }
         }
