@@ -313,7 +313,7 @@ class PageRaterExtension_Controller extends Extension
             foreach ($data as $record) {
                 if ($record instanceof PageRating) {
                     $record->Method = $method;
-                    //do nothing
+                //do nothing
                 } else {
                     $score = $record["RatingAverage"];
                     $parentID = $record["ParentID"];
@@ -370,15 +370,15 @@ class PageRaterExtension_Controller extends Extension
      * return the average rating...
      * @return Double
      */
-     public function getStarRating()
-     {
-         $ratings = $this->owner->PageRatingResults();
-         $rating = 0;
-         if ($ratings->Count() == 1) {
-             foreach ($ratings as $ratingItem) {
-                 $rating = $ratingItem->Stars;
-             }
-         }
-         return $rating;
-     }
+    public function getStarRating()
+    {
+        $ratings = $this->owner->PageRatingResults();
+        $rating = 0;
+        if ($ratings->Count() == 1) {
+            foreach ($ratings as $ratingItem) {
+                $rating = $ratingItem->Stars;
+            }
+        }
+        return $rating;
+    }
 }

@@ -270,7 +270,8 @@ class PageRating extends DataObject
             $where = "PageRating.ParentID > 0";
         }
         DB::query("DELETE FROM PageRating_TEMP;");
-        DB::query("
+        DB::query(
+            "
             INSERT INTO PageRating_TEMP
             SELECT ParentID, (ROUND(AVG(PageRating.Rating) * 100))
             FROM PageRating
