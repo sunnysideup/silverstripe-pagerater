@@ -173,10 +173,12 @@ class PageRaterExtension_Controller extends Extension
         return $list;
     }
 
+
+    public function PageRaterListAll()
     {
         $sqlQuery = new SQLQuery();
         $sqlQuery->setSelect("\"PageRating\".\"Rating\" AS RatingAverage, \"PageRating\".\"ParentID\"");
-        if ($this->onlyShowApprovedPageRatings()) {
+        if ($this->owner->onlyShowApprovedPageRatings()) {
             $sqlQuery->setWhere("\"PageRating\".\"IsApproved\" = 1");
         }
         $sqlQuery->setFrom(" \"PageRating\"");
