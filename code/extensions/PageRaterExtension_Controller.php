@@ -195,7 +195,4 @@ class PageRaterExtension_Controller extends Extension
     {
         return Session::get('PageRated'.$this->owner->ID) ? true : false;
     }
-
-
-
 }

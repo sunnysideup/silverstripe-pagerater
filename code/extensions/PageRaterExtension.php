@@ -201,5 +201,4 @@ class PageRaterExtension extends DataExtension
     {
         return Config::inst()->get("PageRaterExtension_Controller", "only_show_approved");
     }
-
 }
