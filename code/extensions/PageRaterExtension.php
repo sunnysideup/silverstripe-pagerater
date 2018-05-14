@@ -175,7 +175,7 @@ class PageRaterExtension extends DataExtension
      *
      * @return ArrayList
      */
-    protected function turnPageRaterSQLIntoArrayList($data, $method = "unknown")
+    public function turnPageRaterSQLIntoArrayList($data, $method = "unknown")
     {
         if ($data instanceof SQLQuery) {
             $data = $data->execute();
@@ -197,7 +197,7 @@ class PageRaterExtension extends DataExtension
         return $al;
     }
 
-    protected function onlyShowApprovedPageRatings()
+    public function onlyShowApprovedPageRatings()
     {
         return Config::inst()->get("PageRaterExtension_Controller", "only_show_approved");
     }

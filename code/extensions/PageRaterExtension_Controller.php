@@ -152,13 +152,13 @@ class PageRaterExtension_Controller extends Extension
      */
     public function PageRaterListOfAllForPage($paginated = false)
     {
-        if ($this->onlyShowApprovedPageRatings()) {
-            $list = $this->turnPageRaterSQLIntoArrayList(
+        if ($this->owner->onlyShowApprovedPageRatings()) {
+            $list = $this->owner->turnPageRaterSQLIntoArrayList(
                 $this->owner->PageRatings()->filter(array("IsApproved" => 1)),
                 "PageRaterListOfAllForPage"
             );
         } else {
-            $list = $this->turnPageRaterSQLIntoArrayList(
+            $list = $this->owner->turnPageRaterSQLIntoArrayList(
                 $this->owner->PageRatings(),
                 "PageRaterListOfAllForPage"
             );
@@ -173,8 +173,6 @@ class PageRaterExtension_Controller extends Extension
         return $list;
     }
 
-
-    public function PageRaterListAll()
     {
         $sqlQuery = new SQLQuery();
         $sqlQuery->setSelect("\"PageRating\".\"Rating\" AS RatingAverage, \"PageRating\".\"ParentID\"");
@@ -185,7 +183,7 @@ class PageRaterExtension_Controller extends Extension
         $sqlQuery->addInnerJoin("SiteTree", " \"PageRating\".\"ParentID\" = \"SiteTree\".\"ID\"");
         $sqlQuery->setOrderBy("RatingAverage DESC");
         $sqlQuery->setGroupby("\"SiteTree\".\"ParentID\"");
-        return $this->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRaterList");
+        return $this->owner->turnPageRaterSQLIntoArrayList($sqlQuery, "PageRaterList");
     }
 
     /**
