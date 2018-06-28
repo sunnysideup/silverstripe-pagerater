@@ -88,7 +88,14 @@ class PageRaterExtension extends DataExtension
     {
         return $this->getStarRating();
     }
-    public function getStarRating()
+    /**
+     *
+     * @param string $character optional character (e.g. ★,
+     *                           if supplied and the number of stars is 3
+     *                           then it will return ★★★)
+     * @return int|string
+     */
+    public function getStarRating($character = '')
     {
         $ratings = $this->owner->PageRatingResults();
         $rating = 0;
@@ -97,7 +104,11 @@ class PageRaterExtension extends DataExtension
                 $rating = $ratingItem->Stars;
             }
         }
-        return $rating;
+        if ($character && $rating) {
+            return str_repeat($character, $rating);
+        } else {
+            return $rating;
+        }
     }
     /**
      *
