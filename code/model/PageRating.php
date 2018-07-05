@@ -147,12 +147,12 @@ class PageRating extends DataObject
     }
 
     private static $db = array(
-         "Rating" => "Int",
-         "Name" => "Varchar(100)",
-         "Title" => "Varchar(100)",
-         "Comment" => "Text",
-         "IsApproved" => "Boolean",
-         "IsDefault" => "Boolean"
+        "Rating" => "Int",
+        "Name" => "Varchar(100)",
+        "Title" => "Varchar(100)",
+        "Comment" => "Text",
+        "IsApproved" => "Boolean",
+        "IsDefault" => "Boolean"
     );
 
     private static $has_one = array(
@@ -262,6 +262,14 @@ class PageRating extends DataObject
         return $fields;
     }
 
+    /**
+     * updates Page Rating for a Page and saves it with the Page.
+     * Updates SiteTree.PageRating field ...
+     *
+     * if $siteTreeID is 0 then ALL pages are updated ...
+     *
+     * @param  integer $siteTreeID
+     */
     public static function update_ratings($siteTreeID = 0)
     {
         if ($siteTreeID) {
@@ -282,11 +290,13 @@ class PageRating extends DataObject
         DB::query("
             UPDATE SiteTree
                 INNER JOIN PageRating_TEMP ON SiteTree.ID = PageRating_TEMP.ParentID
-            SET SiteTree.PageRating = (PageRating_TEMP.Rating / 100);");
+            SET SiteTree.PageRating = (PageRating_TEMP.Rating / 100);
+        ");
         DB::query("
             UPDATE SiteTree_Live
                 INNER JOIN PageRating_TEMP ON SiteTree_Live.ID = PageRating_TEMP.ParentID
-            SET SiteTree_Live.PageRating = (PageRating_TEMP.Rating / 100);");
+            SET SiteTree_Live.PageRating = (PageRating_TEMP.Rating / 100);
+        ");
     }
 
     public function onBeforeWrite()
