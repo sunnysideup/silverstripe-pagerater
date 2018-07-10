@@ -193,13 +193,13 @@ class PageRaterExtension_Controller extends Extension
      */
     public function PageRaterListOfAllForPage($paginated = false)
     {
-        if ($this->onlyShowApprovedPageRatings()) {
-            $list = $this->turnPageRaterSQLIntoArrayList(
+        if ($this->owner->onlyShowApprovedPageRatings()) {
+            $list = $this->owner->turnPageRaterSQLIntoArrayList(
                 $this->owner->PageRatings()->filter(array("IsApproved" => 1)),
                 "PageRaterListOfAllForPage"
             );
         } else {
-            $list = $this->turnPageRaterSQLIntoArrayList(
+            $list = $this->owner->turnPageRaterSQLIntoArrayList(
                 $this->owner->PageRatings(),
                 "PageRaterListOfAllForPage"
             );
@@ -219,7 +219,7 @@ class PageRaterExtension_Controller extends Extension
     {
         $sqlQuery = new SQLQuery();
         $sqlQuery->setSelect("\"PageRating\".\"Rating\" AS RatingAverage, \"PageRating\".\"ParentID\"");
-        if ($this->onlyShowApprovedPageRatings()) {
+        if ($this->owner->onlyShowApprovedPageRatings()) {
             $sqlQuery->setWhere("\"PageRating\".\"IsApproved\" = 1");
         }
         $sqlQuery->setFrom(" \"PageRating\"");
