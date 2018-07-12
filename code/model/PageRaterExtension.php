@@ -210,7 +210,6 @@ class PageRaterExtension extends DataExtension
             foreach ($data as $record) {
                 if ($record instanceof PageRating) {
                     $record->Method = $method;
-                //do nothing
                 } else {
                     $score = $record["RatingAverage"];
                     $parentID = $record["ParentID"];
